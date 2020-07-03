@@ -1,4 +1,4 @@
-package ru.job4j.it;
+package ru.job4j.chapter001.it;
 
 import org.junit.Test;
 
@@ -9,8 +9,8 @@ public class BackwardArrayItTest {
 
     @Test
     public void whenMultiCallhasNextThenTrue() {
-        ArrayIt it = new ArrayIt(
-                new int[] {1, 2, 3}
+        BackwardArrayIt it = new BackwardArrayIt(
+                new int[]{1, 2, 3}
         );
         assertThat(it.hasNext(), is(true));
         assertThat(it.hasNext(), is(true));
@@ -18,11 +18,11 @@ public class BackwardArrayItTest {
 
     @Test
     public void whenReadSequence() {
-        ArrayIt it = new ArrayIt(
-                new int[] {1, 2, 3}
+        BackwardArrayIt it = new BackwardArrayIt(
+                new int[]{1, 2, 3}
         );
-        assertThat(it.next(), is(1));
-        assertThat(it.next(), is(2));
         assertThat(it.next(), is(3));
+        assertThat(it.next(), is(2));
+        assertThat(it.next(), is(1));
     }
 }

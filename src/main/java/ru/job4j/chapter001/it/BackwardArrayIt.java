@@ -1,6 +1,7 @@
-package ru.job4j.it;
+package ru.job4j.chapter001.it;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class BackwardArrayIt implements Iterator<Integer> {
     private final int[] data;
@@ -13,11 +14,14 @@ public class BackwardArrayIt implements Iterator<Integer> {
 
     @Override
     public boolean hasNext() {
-        return point < data.length;
+        return point > 0;
     }
 
     @Override
     public Integer next() {
-        return data[point--];
+        if (!hasNext()) {
+            throw new NoSuchElementException();
+        }
+        return data[--point];
     }
 }
