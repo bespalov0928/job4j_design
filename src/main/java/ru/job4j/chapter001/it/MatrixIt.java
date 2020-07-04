@@ -14,19 +14,24 @@ public class MatrixIt implements Iterator<Integer> {
 
     @Override
     public boolean hasNext() {
-        boolean rsl = false;
-        while (row < data.length) {
-            if (data[row].length == 0) {
-                row++;
-                continue;
-            }
-            while (column < data[row].length) {
-                rsl = true;
-                break;
-            }
-            break;
+        while (row < data.length && data[row].length == column) {
+            column = 0;
+            row++;
         }
-        return rsl;
+        return row < data.length;
+//        boolean rsl = false;
+//        while (row < data.length) {
+//            if (data[row].length == 0) {
+//                row++;
+//                continue;
+//            }
+//            while (column < data[row].length) {
+//                rsl = true;
+//                break;
+//            }
+//            break;
+//        }
+//        return rsl;
     }
 
     @Override
@@ -34,14 +39,15 @@ public class MatrixIt implements Iterator<Integer> {
         if (!hasNext()) {
             throw new NoSuchElementException();
         }
-        int x = 0;
-        x = data[row][column];
-        if (column >= data[row].length - 1) {
-            column = 0;
-            row++;
-        } else {
-            column++;
-        }
-        return x;
+        return data[row][column++];
+//        int x = 0;
+//        x = data[row][column];
+//        if (column >= data[row].length - 1) {
+//            column = 0;
+//            row++;
+//        } else {
+//            column++;
+//        }
+//        return x;
     }
 }
