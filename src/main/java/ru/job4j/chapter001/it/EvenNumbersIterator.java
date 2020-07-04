@@ -17,17 +17,10 @@ public class EvenNumbersIterator implements Iterator<Integer> {
 
     @Override
     public boolean hasNext() {
-        boolean rsl = false;
-        if (point < numbers.length) {
-            while (numbers[point] % 2 != 0) {
-                point++;
-                if (point >= numbers.length) {
-                    break;
-                }
-            }
-            rsl = point < numbers.length;
+        while (point < numbers.length && numbers[point] % 2 != 0) {
+            point++;
         }
-        return rsl;
+        return point < numbers.length;
     }
 
     @Override
