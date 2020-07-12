@@ -15,15 +15,10 @@ public class MemStore<T extends Base> implements Store<T> {
     @Override
     public boolean replace(String id, T model) {
         boolean rsl = false;
-        Iterator it = mem.iterator();
-        int index = 0;
-        while (it.hasNext()) {
-            T temp = (T) it.next();
-            if (temp.getId() == id) {
-                mem.set(index, model);
-                rsl = true;
-            }
-            index++;
+        int index = findObjectById(id);
+        if (index >= 0) {
+            mem.set(index, model);
+            rsl = true;
         }
         return rsl;
     }
@@ -31,16 +26,10 @@ public class MemStore<T extends Base> implements Store<T> {
     @Override
     public boolean delete(String id) {
         boolean rsl = false;
-        Iterator it = mem.iterator();
-        int index = 0;
-        while (it.hasNext()) {
-            T temp = (T) it.next();
-            if (temp.getId() == id) {
-                mem.remove(index);
-                rsl = true;
-                break;
-            }
-            index++;
+        int index = findObjectById(id);
+        if (index >= 0) {
+            mem.remove(index);
+            rsl = true;
         }
         return rsl;
     }
@@ -48,15 +37,27 @@ public class MemStore<T extends Base> implements Store<T> {
     @Override
     public T findById(String id) {
         T rsl = null;
+        int index = findObjectById(id);
+        if (index >= 0) {
+            rsl = mem.get(index);
+        }
+        return rsl;
+    }
+
+    private int findObjectById(String id) {
+        int rsl = -1;
         Iterator it = mem.iterator();
         int index = 0;
         while (it.hasNext()) {
             T temp = (T) it.next();
             if (temp.getId() == id) {
-                rsl = mem.get(index);
+                //rsl = mem.get(index);
+                rsl = index;
+                break;
             }
             index++;
         }
         return rsl;
+
     }
 }

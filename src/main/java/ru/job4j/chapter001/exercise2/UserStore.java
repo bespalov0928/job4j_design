@@ -24,4 +24,6 @@ public class UserStore implements Store<User> {
     public User findById(String id) {
         return (User) store.findById(id);
     }
+
+
 }
