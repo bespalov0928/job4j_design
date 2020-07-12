@@ -28,14 +28,10 @@ public class SimpleArray<T> {
      * @param index
      * @param model
      */
-    public void set(int index, T model) throws IndexOutOfBoundsException {
-        try {
-            Objects.checkIndex(index, position);
-        } catch (IndexOutOfBoundsException e) {
-            e.printStackTrace();
+    public void set(int index, T model) {
+        if (Objects.checkIndex(index, position) >= 0) {
+            data[index] = (Object) model;
         }
-        data[index] = (Object) model;
-
     }
 
     /**
@@ -48,7 +44,7 @@ public class SimpleArray<T> {
         Object[] tmp = new Object[3];
         data[index] = null;
         System.arraycopy(data, 0, tmp, 0, data.length);
-        System.arraycopy(tmp, index, data, index, data.length - 1 -  index);
+        System.arraycopy(tmp, index, data, index, data.length - 1 - index);
         position--;
     }
 
