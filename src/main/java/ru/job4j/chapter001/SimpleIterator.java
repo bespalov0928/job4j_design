@@ -2,11 +2,12 @@ package ru.job4j.chapter001;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 public class SimpleIterator<T> implements Iterable<T> {
-    private T[] data;
-    public int point = 0;
+    private Object[] data;
+    private int point = 0;
 
     public int getPoint() {
         return point;
@@ -29,17 +30,13 @@ public class SimpleIterator<T> implements Iterable<T> {
                 if (!hasNext()) {
                     new NoSuchElementException();
                 }
-                return data[point++];
+                return (T) data[point++];
             }
 
             @Override
             public void remove() {
                 throw new UnsupportedOperationException("remove");
             }
-
-//            public int getPoint() {
-//                return point;
-//            }
 
         };
         return it;

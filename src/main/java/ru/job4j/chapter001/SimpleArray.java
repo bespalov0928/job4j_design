@@ -2,13 +2,15 @@ package ru.job4j.chapter001;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Objects;
 
 public class SimpleArray<T> {
 
-    private T[] data;
+    private Object[] data;
+    private int position = 0;
 
-    public SimpleArray(T[] data) {
-        this.data = data;
+    public SimpleArray(int size) {
+        this.data = new Object[size];
     }
 
     /**
@@ -17,12 +19,7 @@ public class SimpleArray<T> {
      * @param model
      */
     public void add(T model) {
-        Iterable itr = new SimpleIterator(data);
-        Iterator it = itr.iterator();
-        while (it.next() != null) {
-            it.hasNext();
-        }
-        data[((SimpleIterator) itr).getPoint() - 1] = model;
+        data[position++] = model;
     }
 
     /**
@@ -31,14 +28,13 @@ public class SimpleArray<T> {
      * @param index
      * @param model
      */
-    public void set(int index, T model) {
-        Iterable itr = new SimpleIterator(data);
-        Iterator it = itr.iterator();
-        int x = 0;
-        while (it.hasNext() && ((SimpleIterator) itr).getPoint() != index) {
-            it.next();
+    public void set(int index, T model) throws IndexOutOfBoundsException {
+        try {
+            Objects.checkIndex(index, position);
+        } catch (IndexOutOfBoundsException e) {
+            e.printStackTrace();
         }
-        data[((SimpleIterator) itr).getPoint()] = model;
+        data[index] = (Object) model;
 
     }
 
@@ -49,17 +45,11 @@ public class SimpleArray<T> {
      * @param index
      */
     public void remove(int index) {
-        Iterable itr = new SimpleIterator(data);
-        Iterator it = itr.iterator();
-        int x = 0;
-        while (it.hasNext() && ((SimpleIterator) itr).getPoint() < index) {
-            it.next();
-        }
-        it.next();
-        while (it.hasNext() && ((SimpleIterator) itr).getPoint() < data.length) {
-            data[((SimpleIterator) itr).getPoint() - 1] = (T) it.next();
-        }
-        data[((SimpleIterator) itr).getPoint() - 1] = null;
+        Object[] tmp = new Object[3];
+        data[index] = null;
+        System.arraycopy(data, 0, tmp, 0, data.length);
+        System.arraycopy(tmp, index, data, index, data.length - 1 -  index);
+        position--;
     }
 
     /**
@@ -69,16 +59,7 @@ public class SimpleArray<T> {
      * @return
      */
     public T get(int index) {
-        Iterable itr = new SimpleIterator(data);
-        Iterator it = itr.iterator();
-        T x = null;
-        while (it.hasNext() && ((SimpleIterator) itr).getPoint() <= index) {
-            if (((SimpleIterator) itr).getPoint() == index) {
-                x = (T) it.next();
-            } else {
-                it.next();
-            }
-        }
-        return x;
+        return (T) data[position];
     }
+
 }
