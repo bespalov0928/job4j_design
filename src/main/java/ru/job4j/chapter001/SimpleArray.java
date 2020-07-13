@@ -1,10 +1,8 @@
 package ru.job4j.chapter001;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Objects;
+import java.util.*;
 
-public class SimpleArray<T> {
+public class SimpleArray<T> implements Iterable<T> {
 
     private Object[] data;
     private int position = 0;
@@ -41,9 +39,7 @@ public class SimpleArray<T> {
      * @param index
      */
     public void remove(int index) {
-        Object[] tmp = new Object[3];
-        data[index] = null;
-        System.arraycopy(data, 0, tmp, 0, data.length);
+        Object[] tmp = Arrays.copyOf(data, data.length);
         System.arraycopy(tmp, index, data, index, data.length - 1 - index);
         position--;
     }
@@ -55,7 +51,40 @@ public class SimpleArray<T> {
      * @return
      */
     public T get(int index) {
-        return (T) data[position];
+        T rsl = null;
+        if (Objects.checkIndex(index, position) >= 0) {
+            rsl = (T) data[position];
+        }
+        return rsl;
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+
+
+        Iterator<T> it = new Iterator<T>() {
+            int point = 0;
+
+            @Override
+            public boolean hasNext() {
+                return point < data.length;
+            }
+
+            @Override
+            public T next() {
+                if (!hasNext()) {
+                    new NoSuchElementException();
+                }
+                return (T) data[point++];
+            }
+
+            @Override
+            public void remove() {
+                throw new UnsupportedOperationException("remove");
+            }
+
+        };
+        return it;
     }
 
 }
