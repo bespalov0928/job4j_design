@@ -1,8 +1,6 @@
-package ru.job4j.chapter001.exercise2;
+package ru.job4j.chapter001.generic;
 
 import org.junit.Test;
-import ru.job4j.chapter001.generic.User;
-import ru.job4j.chapter001.generic.UserStore;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;

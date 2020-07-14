@@ -39,8 +39,6 @@ public class SimpleArray<T> implements Iterable<T> {
      * @param index
      */
     public void remove(int index) {
-        Object[] tmp = Arrays.copyOf(data, data.length);
-        //System.arraycopy(tmp, index, data, index, data.length - 1 - index);
         int lastIndex = data.length - 1 - index;
         System.arraycopy(data, index + 1, data, index, lastIndex);
         data[lastIndex + 1] = null;
