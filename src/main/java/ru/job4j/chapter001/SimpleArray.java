@@ -40,7 +40,10 @@ public class SimpleArray<T> implements Iterable<T> {
      */
     public void remove(int index) {
         Object[] tmp = Arrays.copyOf(data, data.length);
-        System.arraycopy(tmp, index, data, index, data.length - 1 - index);
+        //System.arraycopy(tmp, index, data, index, data.length - 1 - index);
+        int lastIndex = data.length - 1 - index;
+        System.arraycopy(data, index + 1, data, index, lastIndex);
+        data[lastIndex + 1] = null;
         position--;
     }
 
@@ -67,7 +70,7 @@ public class SimpleArray<T> implements Iterable<T> {
 
             @Override
             public boolean hasNext() {
-                return point < data.length;
+                return point > 0 || point < data.length;
             }
 
             @Override
