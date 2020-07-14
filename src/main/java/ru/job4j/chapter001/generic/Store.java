@@ -1,4 +1,4 @@
-package ru.job4j.chapter001.exercise2;
+package ru.job4j.chapter001.generic;
 
 public interface Store<T extends Base> {
     void add(T model);

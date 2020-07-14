@@ -1,4 +1,4 @@
-package ru.job4j.chapter001.exercise2;
+package ru.job4j.chapter001.generic;
 
 public abstract class Base {
     private final String id;

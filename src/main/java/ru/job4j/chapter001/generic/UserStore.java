@@ -1,6 +1,4 @@
-package ru.job4j.chapter001.exercise2;
-
-import java.util.Iterator;
+package ru.job4j.chapter001.generic;
 
 public class UserStore implements Store<User> {
     private final Store<User> store = new MemStore<>();

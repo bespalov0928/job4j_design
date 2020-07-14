@@ -1,4 +1,4 @@
-package ru.job4j.chapter001;
+package ru.job4j.chapter001.generic;
 
 import java.util.*;
 

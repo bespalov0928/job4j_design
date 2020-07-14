@@ -1,6 +1,7 @@
 package ru.job4j.chapter001.it;
 
 import org.junit.Test;
+import ru.job4j.chapter001.iterator.MatrixIt;
 
 import java.util.NoSuchElementException;
 

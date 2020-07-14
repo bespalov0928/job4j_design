@@ -1,4 +1,4 @@
-package ru.job4j.chapter001.exercise2;
+package ru.job4j.chapter001.generic;
 
 import java.util.ArrayList;
 import java.util.Iterator;

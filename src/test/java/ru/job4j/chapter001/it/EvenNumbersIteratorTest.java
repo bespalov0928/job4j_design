@@ -3,6 +3,8 @@ package ru.job4j.chapter001.it;
 
 import org.junit.Before;
 import org.junit.Test;
+import ru.job4j.chapter001.iterator.EvenNumbersIterator;
+
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import static org.hamcrest.core.Is.is;
