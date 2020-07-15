@@ -27,9 +27,8 @@ public class SimpleArray<T> implements Iterable<T> {
      * @param model
      */
     public void set(int index, T model) {
-        if (Objects.checkIndex(index, position) >= 0) {
-            data[index] = (Object) model;
-        }
+        Objects.checkIndex(index, position);
+        data[index] = (Object) model;
     }
 
     /**
@@ -39,6 +38,7 @@ public class SimpleArray<T> implements Iterable<T> {
      * @param index
      */
     public void remove(int index) {
+        Objects.checkIndex(index, position);
         int lastIndex = data.length - 1 - index;
         System.arraycopy(data, index + 1, data, index, lastIndex);
         data[lastIndex + 1] = null;
@@ -68,7 +68,7 @@ public class SimpleArray<T> implements Iterable<T> {
 
             @Override
             public boolean hasNext() {
-                return point > 0 || point < data.length;
+                return point < position;
             }
 
             @Override
@@ -78,12 +78,6 @@ public class SimpleArray<T> implements Iterable<T> {
                 }
                 return (T) data[point++];
             }
-
-            @Override
-            public void remove() {
-                throw new UnsupportedOperationException("remove");
-            }
-
         };
         return it;
     }
