@@ -1,7 +1,6 @@
-package ru.job4j.chapter001.it;
+package ru.job4j.chapter001.iterator;
 
 import org.junit.Test;
-import ru.job4j.chapter001.iterator.BackwardArrayIt;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;

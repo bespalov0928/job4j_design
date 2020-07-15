@@ -1,7 +1,6 @@
-package ru.job4j.chapter001.it;
+package ru.job4j.chapter001.iterator;
 
 import org.junit.Test;
-import ru.job4j.chapter001.iterator.FlatMap;
 
 import java.util.Iterator;
 import java.util.List;
