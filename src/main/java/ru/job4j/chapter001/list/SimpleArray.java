@@ -4,9 +4,9 @@ import java.lang.reflect.Array;
 import java.util.*;
 
 public class SimpleArray<T> implements Iterable<T> {
-    Object[] data = null;
-    int position = 0;
-    int modCount = 0;
+    private Object[] data = null;
+    private int position = 0;
+    private int modCount = 0;
 
     public SimpleArray() {
         this.data = new Object[10];
@@ -20,9 +20,10 @@ public class SimpleArray<T> implements Iterable<T> {
     public void add(T model) {
 
         if (position == data.length) {
-            Object[] tmp = Arrays.copyOf(data, data.length);
-            Object[] data = new Object[tmp.length + 100];
-            System.arraycopy(tmp, 0, data, 0, position - 1);
+//            Object[] tmp = Arrays.copyOf(data, data.length);
+//            Object[] data = new Object[tmp.length + 100];
+//            System.arraycopy(tmp, 0, data, 0, position - 1);
+            data = Arrays.copyOf(data, data.length * 2);
         }
         data[position++] = model;
         modCount++;
@@ -36,7 +37,7 @@ public class SimpleArray<T> implements Iterable<T> {
 
             @Override
             public boolean hasNext() {
-                return position > 0 && point < data.length;
+                return point < position;
             }
 
             @Override
