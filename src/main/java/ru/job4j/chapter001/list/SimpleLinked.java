@@ -54,7 +54,8 @@ public class SimpleLinked<E> implements Iterable<E> {
         Iterator<E> it = new Iterator<E>() {
             int point = 0;
             int expectedModCount = modCount;
-
+            Node tmp = first;
+            Node rsl = first;
             @Override
             public boolean hasNext() {
                 return point < size;
@@ -68,12 +69,13 @@ public class SimpleLinked<E> implements Iterable<E> {
                 if (expectedModCount != modCount) {
                     throw new ConcurrentModificationException();
                 }
-                Node rsl = first;
-
-                if (point != 0) {
-                    rsl = first.next;
+                if (tmp == first) {
+                    tmp = tmp.next;
+                }  else {
+                    rsl = rsl.next;
                 }
                 point++;
+                System.out.println(rsl.item);
                 return (E) rsl.item;
             }
         };

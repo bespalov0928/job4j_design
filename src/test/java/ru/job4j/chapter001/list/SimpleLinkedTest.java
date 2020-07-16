@@ -33,7 +33,12 @@ public class SimpleLinkedTest {
         simpleLinked.add(1);
         simpleLinked.add(2);
         simpleLinked.add(3);
+        simpleLinked.add(4);
+        simpleLinked.add(5);
         Iterator it = simpleLinked.iterator();
+        it.next();
+        it.next();
+        it.next();
         it.next();
         it.next();
     }
