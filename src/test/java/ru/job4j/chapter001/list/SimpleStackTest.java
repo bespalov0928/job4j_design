@@ -18,9 +18,9 @@ public class SimpleStackTest {
     public void whenPushPollThenPushPoll() {
         SimpleStack<Integer> stack = new SimpleStack<>();
         stack.push(1);
-        stack.pop();
+        stack.poll();
         stack.push(2);
-        assertThat(stack.pop(), is(2));
+        assertThat(stack.poll(), is(2));
     }
 
     @Test
@@ -28,7 +28,7 @@ public class SimpleStackTest {
         SimpleStack<Integer> stack = new SimpleStack<>();
         stack.push(1);
         stack.push(2);
-        stack.pop();
-        assertThat(stack.pop(), is(2));
+        stack.poll();
+        assertThat(stack.poll(), is(1));
     }
 }

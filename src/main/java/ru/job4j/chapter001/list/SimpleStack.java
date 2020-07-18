@@ -13,6 +13,14 @@ public class SimpleStack<T> {
         T value = linked.deleteFirst();
         return value;
     }
+    /**
+     * должен возвращать последнее значение и удалять его из коллекции
+     * @return
+     */
+    public T poll() {
+        T value = linked.deleteLast();
+        return value;
+    }
 
     /**
      * помещает значение в конец коллекции.
