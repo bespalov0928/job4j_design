@@ -9,6 +9,7 @@ public class ForwardLinked<T> implements Iterable<T> {
 
     /**
      * помещает значение в конец коллекции.
+     *
      * @param value
      */
     public void add(T value) {
@@ -26,6 +27,7 @@ public class ForwardLinked<T> implements Iterable<T> {
 
     /**
      * возвращает значение первого элемента и удаляет его.
+     *
      * @return
      */
     public T deleteFirst() {
@@ -36,6 +38,19 @@ public class ForwardLinked<T> implements Iterable<T> {
         T value = head.value;
         head = head.next;
         return value;
+    }
+
+    public void  revert() {
+
+        Iterator<T> it = iterator();
+        T tempValue = null;
+        //первому next указываешь null, а каждому последующему предыдущий
+        while (it.hasNext()) {
+            tempValue = it.next();
+            Node<T> tempNode = new Node<T>(tempValue, head);
+            //nextNode = tempNode;
+            head = tempNode;
+        }
     }
 
     @Override
