@@ -6,19 +6,20 @@ public class SimpleStack<T> {
     private ForwardLinked<T> linked = new ForwardLinked<>();
 
     /**
-     * должен возвращать первое значение и удалять его из коллекции
-     * @return
-     */
-    public T pop() {
-        T value = linked.deleteFirst();
-        return value;
-    }
-    /**
      * должен возвращать последнее значение и удалять его из коллекции
      * @return
      */
-    public T poll() {
+    public T pop() {
         T value = linked.deleteLast();
+        return value;
+    }
+
+    /**
+     * должен возвращать первое значение и удалять его из коллекции
+     * @return
+     */
+    public T poll() {
+        T value = linked.deleteFirst();
         return value;
     }
 

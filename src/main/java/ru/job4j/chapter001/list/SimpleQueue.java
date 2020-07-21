@@ -12,9 +12,9 @@ public class SimpleQueue<T> {
      */
     public T poll() {
         while (in.isEmpty()) {
-            out.push(in.pop());
+            out.push(in.poll());
         }
-        T value = out.pop();
+        T value = out.poll();
         return value;
     }
 
