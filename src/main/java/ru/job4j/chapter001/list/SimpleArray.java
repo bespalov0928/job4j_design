@@ -4,7 +4,7 @@ import java.lang.reflect.Array;
 import java.util.*;
 
 public class SimpleArray<T> implements Iterable<T> {
-    private Object[] data = null;
+        private Object[] data = null;
     private int position = 0;
     private int modCount = 0;
 
@@ -20,9 +20,6 @@ public class SimpleArray<T> implements Iterable<T> {
     public void add(T model) {
 
         if (position == data.length) {
-//            Object[] tmp = Arrays.copyOf(data, data.length);
-//            Object[] data = new Object[tmp.length + 100];
-//            System.arraycopy(tmp, 0, data, 0, position - 1);
             data = Arrays.copyOf(data, data.length * 2);
         }
         data[position++] = model;
