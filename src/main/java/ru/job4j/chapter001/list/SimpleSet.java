@@ -4,16 +4,27 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Objects;
 
-public class SimpleSet<T>  {
+public class SimpleSet<T> {
 
     SimpleArray simpleArray = new SimpleArray();
 
-    public T get(int index) {
-        return (T) simpleArray.get(index);
+    public boolean contains(T value) {
+        boolean rsl = false;
+        Iterator<T> it = simpleArray.iterator();
+        while (it.hasNext()) {
+            if (it.next() == value) {
+                rsl = true;
+                break;
+            }
+        }
+        return rsl;
     }
 
     public void add(T model) {
-        simpleArray.add(model);
+        if (!contains(model)) {
+            simpleArray.add(model);
+        }
+
     }
 
 
