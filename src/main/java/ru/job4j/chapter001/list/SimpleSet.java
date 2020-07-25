@@ -6,13 +6,13 @@ import java.util.Objects;
 
 public class SimpleSet<T> {
 
-    SimpleArray simpleArray = new SimpleArray();
+    private SimpleArray simpleArray = new SimpleArray();
 
     public boolean contains(T value) {
         boolean rsl = false;
         Iterator<T> it = simpleArray.iterator();
         while (it.hasNext()) {
-            if (it.next() == value) {
+            if (it.next().equals(value)) {
                 rsl = true;
                 break;
             }
