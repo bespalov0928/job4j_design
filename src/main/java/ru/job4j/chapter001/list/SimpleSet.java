@@ -12,7 +12,7 @@ public class SimpleSet<T> {
         boolean rsl = false;
         Iterator<T> it = simpleArray.iterator();
         while (it.hasNext()) {
-            if (it.next().equals(value)) {
+            if (Objects.equals(it.next(), value)) {
                 rsl = true;
                 break;
             }
