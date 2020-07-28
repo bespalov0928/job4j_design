@@ -15,6 +15,6 @@ public class User {
 
     @Override
     public int hashCode() {
-        return name != null ? name.hashCode() : 0;
+        return name != null ? 31 * 17 * name.hashCode() : 0;
     }
 }
