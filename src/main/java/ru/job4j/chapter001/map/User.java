@@ -13,8 +13,24 @@ public class User {
         this.birthday = birthday;
     }
 
+//    @Override
+//    public int hashCode() {
+//        return name != null ? 31 * 17 * name.hashCode() : 0;
+//    }
+
     @Override
-    public int hashCode() {
-        return name != null ? 31 * 17 * name.hashCode() : 0;
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+
+        User user = (User) obj;
+        if (!this.name.equals(((User) obj).name) || !this.birthday.equals(((User) obj).birthday)) {
+            return false;
+        }
+        return true;
     }
 }
