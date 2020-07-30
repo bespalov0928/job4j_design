@@ -13,10 +13,14 @@ public class User {
         this.birthday = birthday;
     }
 
-//    @Override
-//    public int hashCode() {
-//        return name != null ? 31 * 17 * name.hashCode() : 0;
-//    }
+    @Override
+    public int hashCode() {
+        int rsl = name != null ? name.hashCode() : 0;
+        rsl = rsl + birthday.hashCode();
+        rsl = 31 * 17 * rsl;
+        return rsl;
+        //return name != null ? 31 * 17 * name.hashCode() : 0;
+    }
 
     @Override
     public boolean equals(Object obj) {
