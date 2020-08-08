@@ -6,7 +6,9 @@ public class HashMapNew<K, V> implements Iterable<K> {
 
     private int size = 2;
     private int sizemax = 0;
+    private int modCount = 0;
     transient Node<K, V>[] table;
+    static final float DEFAULT_LOAD_FACTOR = 0.75f;
 
     public HashMapNew() {
         this.table = new Node[size];
@@ -15,11 +17,20 @@ public class HashMapNew<K, V> implements Iterable<K> {
     @Override
     public Iterator<K> iterator() {
         Iterator<K> it = new Iterator<K>() {
-            int x = 0;
+            int point = 0;
+            int expectedModCount = modCount;
 
             @Override
             public boolean hasNext() {
-                return x < table.length;
+                boolean rsl = false;
+                if (point < table.length && table[point] == null) {
+                    while (point < table.length && table[point] == null) {
+                        point++;
+                    }
+                }
+                rsl = point < table.length;
+
+                return rsl;
             }
 
             @Override
@@ -27,9 +38,11 @@ public class HashMapNew<K, V> implements Iterable<K> {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-                Node<K, V> node = table[x];
-                x++;
-                //System.out.println(value);
+                if (expectedModCount != modCount) {
+                    throw new ConcurrentModificationException();
+                }
+                Node<K, V> node = table[point];
+                point++;
                 return (K) node;
             }
         };
@@ -59,16 +72,8 @@ public class HashMapNew<K, V> implements Iterable<K> {
      */
     public boolean insert(K key, V value) {
 
-        if (sizemax >= size) {
-            size = size * 2;
-            table = Arrays.copyOf(table, size);
-            for (int x = 0; x < table.length; x++) {
-                if (table[x] != null) {
-                    Node nodeTemp = (Node) table[x];
-                    table[x] = null;
-                    table[nodeTemp.hash & (table.length - 1)] = nodeTemp;
-                }
-            }
+        if (sizemax / table.length >= DEFAULT_LOAD_FACTOR) {
+            enlargingTable();
         }
 
         boolean rsl = true;
@@ -79,6 +84,7 @@ public class HashMapNew<K, V> implements Iterable<K> {
             p = new Node<K, V>(hash, key, value, null);
             table[index] = p;
             sizemax++;
+            modCount++;
         } else {
             rsl = false;
         }
@@ -92,16 +98,9 @@ public class HashMapNew<K, V> implements Iterable<K> {
      * @return
      */
     public V get(K key) {
-        Iterator<K> iterator = iterator();
-        V tmp = null;
-        while (iterator.hasNext()) {
-            Node<K, V> node = (Node<K, V>) iterator.next();
-            if (node != null && node.key.equals(key)) {
-                tmp = node.value;
-                break;
-            }
-        }
-        return tmp;
+        int index = key.hashCode() & (table.length - 1);
+        Node<K, V> tmp = table[index];
+        return tmp.value;
     }
 
     /**
@@ -112,21 +111,26 @@ public class HashMapNew<K, V> implements Iterable<K> {
      */
     public boolean delete(K key) {
         boolean rsl = false;
-        Iterator<K> iterator = iterator();
-        V tmp = null;
-        while (iterator.hasNext()) {
-            Node<K, V> node = (Node<K, V>) iterator.next();
-            if (node != null && node.key.equals(key)) {
-                for (int x = 0; x < table.length; x++) {
-                    if (table[x] != null && table[x].equals(node)) {
-                        table[x] = null;
-                        rsl = true;
-                        break;
-                    }
-                }
-            }
+        int index = key.hashCode() & (table.length - 1);
+        if (table[index] != null) {
+            table[index] = null;
+            sizemax--;
+            modCount--;
+            rsl = true;
         }
         return rsl;
     }
 
+    public void enlargingTable() {
+
+        size = size * 2;
+        //table = Arrays.copyOf(table, size);
+        for (int x = 0; x < table.length; x++) {
+            if (table[x] != null) {
+                Node nodeTemp = (Node) table[x];
+                table[x] = null;
+                table[nodeTemp.hash & (table.length - 1)] = nodeTemp;
+            }
+        }
+    }
 }

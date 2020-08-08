@@ -1,5 +1,6 @@
 package ru.job4j.chapter001.map;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.GregorianCalendar;
@@ -7,6 +8,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
 public class HashMapNewTest {
@@ -47,7 +49,7 @@ public class HashMapNewTest {
         map.insert(fourth, "fourth");
 
         Object user = map.get(first);
-        System.out.println(user);
+        assertThat("first", is(user));
     }
 
 
@@ -63,6 +65,18 @@ public class HashMapNewTest {
         map.insert(second, "second");
         map.insert(third, "third");
         map.insert(fourth, "fourth");
+
+        Iterator<User> it = map.iterator();
+        while (it.hasNext()) {
+            System.out.println(it.next());
+        }
+        System.out.println();
         Object user = map.delete(first);
+
+        Iterator<User> iterator = map.iterator();
+        while (iterator.hasNext()) {
+            System.out.println(iterator.next());
+        }
+
     }
 }
