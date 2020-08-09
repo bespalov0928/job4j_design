@@ -4,7 +4,7 @@ import java.util.*;
 
 public class HashMapNew<K, V> implements Iterable<K> {
 
-    private int size = 2;
+    private int size = 16;
     private int sizemax = 0;
     private int modCount = 0;
     transient Node<K, V>[] table;
@@ -23,10 +23,8 @@ public class HashMapNew<K, V> implements Iterable<K> {
             @Override
             public boolean hasNext() {
                 boolean rsl = false;
-                if (point < table.length && table[point] == null) {
-                    while (point < table.length && table[point] == null) {
-                        point++;
-                    }
+                while (point < table.length && table[point] == null) {
+                    point++;
                 }
                 rsl = point < table.length;
 
@@ -72,13 +70,11 @@ public class HashMapNew<K, V> implements Iterable<K> {
      */
     public boolean insert(K key, V value) {
 
-        if (sizemax / table.length >= DEFAULT_LOAD_FACTOR) {
-            enlargingTable();
-        }
+        enlargingTable();
 
         boolean rsl = true;
-        int hash = key.hashCode() * 31;
-        int index = hash & (table.length - 1);
+        int hash = key.hashCode();
+        int index = calculateIndex(hash);
         Node<K, V> p;
         if (table[index] == null) {
             p = new Node<K, V>(hash, key, value, null);
@@ -86,7 +82,12 @@ public class HashMapNew<K, V> implements Iterable<K> {
             sizemax++;
             modCount++;
         } else {
-            rsl = false;
+            if (Objects.equals(key.hashCode(), table[index].key.hashCode())) {
+                table[index].value = value;
+            } else {
+                p = new Node<K, V>(hash, key, value, null);
+                table[index] = p;
+            }
         }
         return rsl;
     }
@@ -98,7 +99,7 @@ public class HashMapNew<K, V> implements Iterable<K> {
      * @return
      */
     public V get(K key) {
-        int index = key.hashCode() & (table.length - 1);
+        int index = calculateIndex(key.hashCode());
         Node<K, V> tmp = table[index];
         return tmp.value;
     }
@@ -111,7 +112,7 @@ public class HashMapNew<K, V> implements Iterable<K> {
      */
     public boolean delete(K key) {
         boolean rsl = false;
-        int index = key.hashCode() & (table.length - 1);
+        int index = calculateIndex(key.hashCode());
         if (table[index] != null) {
             table[index] = null;
             sizemax--;
@@ -123,14 +124,23 @@ public class HashMapNew<K, V> implements Iterable<K> {
 
     public void enlargingTable() {
 
-        size = size * 2;
-        //table = Arrays.copyOf(table, size);
-        for (int x = 0; x < table.length; x++) {
-            if (table[x] != null) {
-                Node nodeTemp = (Node) table[x];
-                table[x] = null;
-                table[nodeTemp.hash & (table.length - 1)] = nodeTemp;
+        if (sizemax / table.length >= DEFAULT_LOAD_FACTOR) {
+            size = size * 2;
+            Node<K, V>[] oldTable = table;
+            table = new Node[size];
+            for (int x = 0; x < oldTable.length; x++) {
+                Node<K, V> nodeTmp = oldTable[x];
+                if (nodeTmp == null) {
+                    continue;
+                }
+                int index = calculateIndex(nodeTmp.hash);
+                table[index] = nodeTmp;
             }
         }
+    }
+
+    public int calculateIndex(int hash) {
+        int index = hash & (table.length - 1);
+        return index;
     }
 }

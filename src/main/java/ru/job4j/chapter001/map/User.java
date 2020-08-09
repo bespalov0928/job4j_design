@@ -6,6 +6,7 @@ public class User {
     private String name;
     private int children;
     private Calendar birthday;
+    //private int hashCode;
 
     public User(String name, int children, Calendar birthday) {
         this.name = name;
@@ -13,13 +14,27 @@ public class User {
         this.birthday = birthday;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public Calendar getBirthday() {
+        return birthday;
+    }
+
+//    public int getHashCode() {
+//        return hashCode;
+//    }
+
     @Override
     public int hashCode() {
-        int rsl = name != null ? name.hashCode() : 0;
-        rsl = rsl + birthday.hashCode();
-        rsl = 31 * 17 * rsl;
+//        int rsl = hashCode;
+//        if (hashCode == 0) {
+            int rsl = 17;
+            rsl = rsl * 31 * name.hashCode();
+            rsl = rsl * 31 * birthday.hashCode();
+//        }
         return rsl;
-        //return name != null ? 31 * 17 * name.hashCode() : 0;
     }
 
     @Override

@@ -38,7 +38,7 @@ public class HashMapNewTest {
     @Test
     public void get() {
         User first = new User("Ivan", 1, new GregorianCalendar(1530, 8, 25));
-        User second = new User("Napoleon", 1, new GregorianCalendar(1804, 5, 18));
+        User second = new User("Marina", 1, new GregorianCalendar(1804, 5, 18));
         User third = new User("Nikolay", 1, new GregorianCalendar(1530, 8, 25));
         User fourth = new User("Denis", 1, new GregorianCalendar(1530, 8, 25));
 
