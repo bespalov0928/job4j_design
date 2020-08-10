@@ -72,7 +72,7 @@ public class HashMapNew<K, V> implements Iterable<K> {
 
         enlargingTable();
 
-        boolean rsl = true;
+        boolean rsl = false;
         int hash = key.hashCode();
         int index = calculateIndex(hash);
         Node<K, V> p;
@@ -81,12 +81,10 @@ public class HashMapNew<K, V> implements Iterable<K> {
             table[index] = p;
             sizemax++;
             modCount++;
+            rsl = true;
         } else {
-            if (Objects.equals(key.hashCode(), table[index].key.hashCode())) {
+            if (Objects.equals(key, table[index].key)) {
                 table[index].value = value;
-            } else {
-                p = new Node<K, V>(hash, key, value, null);
-                table[index] = p;
             }
         }
         return rsl;
@@ -99,9 +97,13 @@ public class HashMapNew<K, V> implements Iterable<K> {
      * @return
      */
     public V get(K key) {
+        V value = null;
         int index = calculateIndex(key.hashCode());
         Node<K, V> tmp = table[index];
-        return tmp.value;
+        if (Objects.equals(key, tmp.key)) {
+            value = tmp.value;
+        }
+        return value;
     }
 
     /**
@@ -113,10 +115,10 @@ public class HashMapNew<K, V> implements Iterable<K> {
     public boolean delete(K key) {
         boolean rsl = false;
         int index = calculateIndex(key.hashCode());
-        if (table[index] != null) {
+        if (table[index] != null && Objects.equals(key, table[index].key)) {
             table[index] = null;
             sizemax--;
-            modCount--;
+            //modCount--;
             rsl = true;
         }
         return rsl;
