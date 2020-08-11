@@ -1,9 +1,6 @@
 package ru.job4j.chapter001.tree;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Optional;
-import java.util.Queue;
+import java.util.*;
 
 public class Tree<E> implements SimpleTree<E> {
     private final Node<E> root;
@@ -14,15 +11,35 @@ public class Tree<E> implements SimpleTree<E> {
 
     @Override
     public boolean add(E parent, E child) {
-        boolean rsl = false;
+        boolean rsl = true;
         Optional<Node<E>> parentOptional = (Optional<Node<E>>) findBy(parent);
         if (parentOptional.isPresent()) {
             Node<E> parentTemp = (Node<E>) parentOptional.get();
-            ArrayList<Node<E>> childrenTmp = (ArrayList<Node<E>>) parentTemp.children;
-            if (!childrenTmp.contains(child)) {
+            //проверяем значение дочерних узлов
+            ArrayList<Node<E>> chilArray = (ArrayList<Node<E>>) parentTemp.children;
+            for (int x = 0; x < chilArray.size(); x++) {
+                Node<E> childrenTmp = chilArray.get(x);
+                if (Objects.equals(childrenTmp, child)) {
+                    rsl = false;
+                    break;
+                }
+
+                //проверяем значения в улах дерева дочерних узлов, если оно есть.
+                ArrayList<Node<E>> childChildArray = (ArrayList<Node<E>>) childrenTmp.children;
+                if (childChildArray.contains(child)) {
+                    rsl = false;
+                    break;
+                }
+//                for (int y = 0; y < childChildArray.size(); y++) {
+//                    if (Objects.equals(childChildArray.get(y), child)) {
+//                        rsl = false;
+//                        break;
+//                    }
+//                }
+            }
+            if (rsl) {
                 Node<E> newChild = new Node<>(child);
-                childrenTmp.add(newChild);
-                rsl = true;
+                chilArray.add(newChild);
             }
         }
         return rsl;
