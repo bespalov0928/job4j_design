@@ -85,6 +85,7 @@ public class HashMapNew<K, V> implements Iterable<K> {
         } else {
             if (Objects.equals(key, table[index].key)) {
                 table[index].value = value;
+                rsl = true;
             }
         }
         return rsl;
@@ -118,7 +119,7 @@ public class HashMapNew<K, V> implements Iterable<K> {
         if (table[index] != null && Objects.equals(key, table[index].key)) {
             table[index] = null;
             sizemax--;
-            //modCount--;
+            modCount++;
             rsl = true;
         }
         return rsl;
