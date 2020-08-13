@@ -13,37 +13,33 @@ public class Tree<E> implements SimpleTree<E> {
     public boolean add(E parent, E child) {
         boolean rsl = true;
         Optional<Node<E>> parentOptional = (Optional<Node<E>>) findBy(parent);
+
         if (parentOptional.isPresent()) {
             Node<E> parentTemp = (Node<E>) parentOptional.get();
-            //проверяем значение дочерних узлов
-            ArrayList<Node<E>> chilArray = (ArrayList<Node<E>>) parentTemp.children;
-            for (int x = 0; x < chilArray.size(); x++) {
-                Node<E> childrenTmp = chilArray.get(x);
-                if (Objects.equals(childrenTmp, child)) {
+            Queue<Node<E>> data = new LinkedList<>();
+            data.addAll(parentTemp.children);
+            while (!data.isEmpty()) {
+                Node<E> el = data.poll();
+                Optional<Node<E>> childOptional = (Optional<Node<E>>) findBy(el.value);
+                if (childOptional.isEmpty()) {
                     rsl = false;
                     break;
                 }
-
-                //проверяем значения в улах дерева дочерних узлов, если оно есть.
-                ArrayList<Node<E>> childChildArray = (ArrayList<Node<E>>) childrenTmp.children;
-                if (childChildArray.contains(child)) {
-                    rsl = false;
-                    break;
-                }
-//                for (int y = 0; y < childChildArray.size(); y++) {
-//                    if (Objects.equals(childChildArray.get(y), child)) {
-//                        rsl = false;
-//                        break;
-//                    }
-//                }
             }
             if (rsl) {
                 Node<E> newChild = new Node<>(child);
-                chilArray.add(newChild);
+                parentTemp.children.add(newChild);
             }
         }
         return rsl;
     }
+
+//    public boolean isBinary() {
+//        boolean rsl = true;
+//        Node<E> tmp = this.root;
+//        while (tmp.children.size())
+//        return rsl;
+//    }
 
     @Override
     public Optional<Node<E>> findBy(E value) {
