@@ -13,33 +13,16 @@ public class Tree<E> implements SimpleTree<E> {
     public boolean add(E parent, E child) {
         boolean rsl = true;
         Optional<Node<E>> parentOptional = (Optional<Node<E>>) findBy(parent);
-
-        if (parentOptional.isPresent()) {
+        Optional<Node<E>> childOptional = (Optional<Node<E>>) findBy(child);
+        if (!parentOptional.isEmpty() && childOptional.isEmpty()) {
             Node<E> parentTemp = (Node<E>) parentOptional.get();
-            Queue<Node<E>> data = new LinkedList<>();
-            data.addAll(parentTemp.children);
-            while (!data.isEmpty()) {
-                Node<E> el = data.poll();
-                Optional<Node<E>> childOptional = (Optional<Node<E>>) findBy(el.value);
-                if (childOptional.isEmpty()) {
-                    rsl = false;
-                    break;
-                }
-            }
-            if (rsl) {
-                Node<E> newChild = new Node<>(child);
-                parentTemp.children.add(newChild);
-            }
+            Node<E> newChild = new Node<>(child);
+            parentTemp.children.add(newChild);
+        } else {
+            rsl = false;
         }
         return rsl;
     }
-
-//    public boolean isBinary() {
-//        boolean rsl = true;
-//        Node<E> tmp = this.root;
-//        while (tmp.children.size())
-//        return rsl;
-//    }
 
     @Override
     public Optional<Node<E>> findBy(E value) {
