@@ -7,17 +7,25 @@ import java.util.*;
  */
 public class FreezeStr {
     public static boolean eq(String left, String right) {
-        boolean rsl = false;
-
+        Map<Character, Integer> map = new HashMap<>();
         char[] arrLeft = left.toCharArray();
         char[] arrRight = right.toCharArray();
-
-        Arrays.sort(arrLeft);
-        Arrays.sort(arrRight);
-        if (Arrays.equals(arrLeft, arrRight)) {
-            rsl = true;
+        for (Character chL : arrLeft) {
+            Integer value = map.get(chL);
+            value = value == null ? 1 : ++value;
+            map.put(chL, value);
         }
-
-        return rsl;
+        for (Character chR : arrRight) {
+            Integer value = map.get(chR);
+            if (value == null) {
+                continue;
+            }
+            if (value == 1) {
+                map.remove(chR);
+            } else {
+                map.put(chR, --value);
+            }
+        }
+        return map.isEmpty();
     }
 }
