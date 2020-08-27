@@ -1,5 +1,6 @@
 package ru.job4j.chapter001;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -7,15 +8,10 @@ import java.util.List;
  */
 public class Analize {
     public Info diff(List<User> previous, List<User> current) {
-        int added = current.size() - previous.size();
+         int added = current.size() - previous.size();
         int changed = 0;
-        for (User user: previous) {
-            int index = current.indexOf(user);
-            if (index == -1) {
-                continue;
-            }
-            User tmpUser = current.get(index);
-            if (tmpUser.id == user.id && !tmpUser.name.equals(user.name)) {
+        for (User user : previous) {
+            if (!current.contains(user)) {
                 changed++;
             }
         }
@@ -56,7 +52,7 @@ public class Analize {
                 return false;
             }
             User user = (User) obj;
-            if (this.id != user.id) {
+            if (this.id != user.id || this.name != user.name) {
                 return false;
             }
             return true;
