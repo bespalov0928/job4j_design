@@ -14,7 +14,7 @@ public class MultiplicationTable {
                 rsl = String.format("%s%d * %d = %d\n", rsl, x, y, x * y);
                 //System.out.println(rsl);
             }
-            rsl = rsl + "\n";
+            rsl = rsl + System.lineSeparator();
         }
         System.out.println(rsl);
         try (FileOutputStream out = new FileOutputStream("result.txt")) {
