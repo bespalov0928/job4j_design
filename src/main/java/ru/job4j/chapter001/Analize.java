@@ -1,20 +1,28 @@
 package ru.job4j.chapter001;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * возвращает статистику об изменении коллекции
  */
 public class Analize {
     public Info diff(List<User> previous, List<User> current) {
-         int added = current.size() - previous.size();
-        int changed = 0;
+        Map<Integer, String> map = new HashMap<>();
         for (User user : previous) {
-            if (!current.contains(user)) {
-                changed++;
-            }
+            map.put(user.id, user.name);
         }
+        for (User user : current) {
+            String nameTmp = map.get(user.id);
+            if (nameTmp == null || !nameTmp.equals(user.name)) {
+                continue;
+            }
+            map.remove(user.id);
+        }
+        int changed = map.size();
+        int added = current.size() - previous.size();
         int delete = previous.size() - current.size();
 
         Info info = new Info();
