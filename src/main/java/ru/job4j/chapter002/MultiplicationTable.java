@@ -11,7 +11,7 @@ public class MultiplicationTable {
             //System.out.println();
 
             for (int y : arrSecond) {
-                rsl = String.format("%s%d * %d = %d\n", rsl, x, y, x * y);
+                rsl = String.format("%s%d * %d = %d%n", rsl, x, y, x * y);
                 //System.out.println(rsl);
             }
             rsl = rsl + System.lineSeparator();
