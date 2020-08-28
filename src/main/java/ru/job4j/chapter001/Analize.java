@@ -11,24 +11,31 @@ import java.util.Map;
 public class Analize {
     public Info diff(List<User> previous, List<User> current) {
         Map<Integer, String> map = new HashMap<>();
+        int changed = 0;
+        int added = 0;
+        int delete = 0;
+
         for (User user : previous) {
             map.put(user.id, user.name);
         }
         for (User user : current) {
             String nameTmp = map.get(user.id);
-            if (nameTmp == null || !nameTmp.equals(user.name)) {
+            if (nameTmp == null) {
+                added++;
                 continue;
+            }
+            if (!nameTmp.equals(user.name)) {
+                changed++;
+                //continue;
             }
             map.remove(user.id);
         }
-        int changed = map.size();
-        int added = current.size() - previous.size();
-        int delete = previous.size() - current.size();
+        delete = map.size();
 
         Info info = new Info();
-        info.added = added > 0 ? added : 0;
+        info.added = added;
         info.changed = changed;
-        info.delete = delete > 0 ? delete : 0;
+        info.delete = delete;
 
         return info;
     }

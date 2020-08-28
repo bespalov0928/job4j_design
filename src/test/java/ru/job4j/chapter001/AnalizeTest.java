@@ -103,4 +103,41 @@ public class AnalizeTest {
 
         assertThat(result, is(extend));
     }
+
+    @Test
+    public void whenAddThreeElement() {
+
+        Analize analize = new Analize();
+        List<Analize.User> previous = new ArrayList<>();
+        List<Analize.User> current = new ArrayList<>();
+
+        previous.add(new Analize.User(123, "name1"));
+        previous.add(new Analize.User(456, "name2"));
+        previous.add(new Analize.User(789, "name3"));
+
+        current.add(new Analize.User(123, "name1"));
+        current.add(new Analize.User(456, "name2"));
+        current.add(new Analize.User(789, "name3"));
+        current.add(new Analize.User(159, "name4"));
+        current.add(new Analize.User(753, "name5"));
+        current.add(new Analize.User(142, "name6"));
+
+        Analize.Info result = analize.diff(previous, current);
+        assertThat(result.added, is(3));
+    }
+
+    @Test
+    public void whenDeleteThreeElement() {
+
+        Analize analize = new Analize();
+        List<Analize.User> previous = new ArrayList<>();
+        List<Analize.User> current = new ArrayList<>();
+
+        previous.add(new Analize.User(123, "name1"));
+        previous.add(new Analize.User(456, "name2"));
+        previous.add(new Analize.User(789, "name3"));
+
+        Analize.Info result = analize.diff(previous, current);
+        assertThat(result.delete, is(3));
+    }
 }
