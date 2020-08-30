@@ -14,11 +14,12 @@ public class LogFilter {
                 String[] arr = line.split("/");
                 String arrLastString =  arr[arr.length - 1];
                 String tmp = String.format("%s%s%s", arrLastString.charAt(5), arrLastString.charAt(6), arrLastString.charAt(7));
-                if (!tmp .equals("404")) {
-                    continue;
+                if (tmp .equals("404")) {
+                    //continue;
+                    lines.add(line);
                 }
                 //System.out.println(line);
-                lines.add(line);
+                //lines.add(line);
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
