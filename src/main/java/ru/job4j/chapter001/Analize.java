@@ -19,16 +19,14 @@ public class Analize {
             map.put(user.id, user.name);
         }
         for (User user : current) {
-            String nameTmp = map.get(user.id);
+            String nameTmp = map.remove(user.id);
             if (nameTmp == null) {
                 added++;
-                continue;
+            } else {
+                if (!nameTmp.equals(user.name)) {
+                    changed++;
+                }
             }
-            if (!nameTmp.equals(user.name)) {
-                changed++;
-                //continue;
-            }
-            map.remove(user.id);
         }
         delete = map.size();
 
