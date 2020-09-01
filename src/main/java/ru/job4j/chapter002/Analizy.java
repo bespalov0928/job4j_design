@@ -20,7 +20,7 @@ public class Analizy {
                     lines.add(line + ";");
                     start = true;
                 } else if ((strTmp.equals("200") || strTmp.equals("300")) && start) {
-                    lines.add(line+System.lineSeparator());
+                    lines.add(line + System.lineSeparator());
                     start = false;
                 }
 
