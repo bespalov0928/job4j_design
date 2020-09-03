@@ -9,6 +9,12 @@ public class Analizy {
 
     public void unavailable(String source, String target) {
         List<String> lines = new ArrayList<>();
+        lines = readFile(source);
+        writeFile(target, lines);
+    }
+
+    private List<String> readFile(String source) {
+        List<String> lines = new ArrayList<>();
         try (BufferedReader in = new BufferedReader(new FileReader(source))) {
             Boolean start = false;
             String line;
@@ -30,15 +36,20 @@ public class Analizy {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return lines;
+    }
 
+    private void writeFile(String target, List<String> lines) {
         try (PrintWriter out = new PrintWriter(new BufferedOutputStream(new FileOutputStream(target)))) {
-            for (String str:lines) {
+            for (String str : lines) {
                 out.write(str);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
+
 
     public static void main(String[] args) {
         try (PrintWriter out = new PrintWriter(new FileOutputStream("unavailable.csv"))) {
