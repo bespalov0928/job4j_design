@@ -10,8 +10,17 @@ import java.util.List;
 
 public class Search {
     public static void main(String[] args) throws IOException {
-        Path start = Paths.get(".");
-        search(start, "js").forEach(System.out::println);
+        if (args.length == 0) {
+            throw new IllegalArgumentException("No root path specified.");
+        } else if (args.length == 1) {
+            throw new IllegalArgumentException("File extension not specified.");
+        }
+        String firstParam = args[0];
+        String secondParam = args[1];
+
+
+        Path start = Paths.get(firstParam);
+        search(start, secondParam).forEach(System.out::println);
     }
 
     public static List<Path> search(Path root, String ext) {
