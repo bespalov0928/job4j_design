@@ -37,7 +37,7 @@ public class Searcher implements FileVisitor<Path> {
                 return root.toFile().getName().endsWith(ext);
             }
         };
-        if (seacher.test(file)) {
+        if (!seacher.test(file)) {
             list.add(file);
         }
         //System.out.println(file.toAbsolutePath());
