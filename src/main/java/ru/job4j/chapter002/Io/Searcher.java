@@ -30,17 +30,21 @@ public class Searcher implements FileVisitor<Path> {
 
     @Override
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-//        SearchFiles<Path> seacher = new SearchFiles<Path>(p -> p.toFile​().getName.endsWith(ext))
-        SearchFiles<Path> seacher = new SearchFiles<Path>() {
-            @Override
-            public boolean test(Path root) {
-                return root.toFile().getName().endsWith(ext);
-            }
-        };
-        if (!seacher.test(file)) {
+
+        if (file.toFile().getName().endsWith(ext)) {
             list.add(file);
         }
-        //System.out.println(file.toAbsolutePath());
+//        SearchFiles<Path> seacher = new SearchFiles<Path>(p -> p.toFile​().getName.endsWith(ext))
+//        SearchFiles<Path> seacher = new SearchFiles<Path>() {
+//            @Override
+//            public boolean test(Path root) {
+//                return root.toFile().getName().endsWith(ext);
+//            }
+//        };
+//        if (!seacher.test(file)) {
+//            list.add(file);
+//        }
+//        System.out.println(file.toAbsolutePath());
         return CONTINUE;
     }
 
