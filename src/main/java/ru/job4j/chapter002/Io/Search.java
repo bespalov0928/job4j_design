@@ -25,7 +25,7 @@ public class Search {
 
     public static List<Path> search(Path root, String ext) {
         List<Path> list;
-        Searcher searcher = new Searcher(ext);
+        Searcher searcher = new Searcher(ext, new SearchFiles(p -> p.toFile().getName.endsWith(ext)));
         try {
             Files.walkFileTree(root, (FileVisitor<? super Path>) searcher);
         } catch (IOException e) {

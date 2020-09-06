@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 import static java.nio.file.FileVisitResult.CONTINUE;
 
@@ -14,13 +15,16 @@ public class Searcher implements FileVisitor<Path> {
 
     private List<Path> list = new ArrayList<>();
     private String ext;
+    private Predicate<Path> predicate;
+
 
     public void setExt(String ext) {
         this.ext = ext;
     }
 
-    public Searcher(String ext) {
+    public Searcher(String ext, Predicate<Path> predicate) {
         this.ext = ext;
+        this.predicate = predicate;
     }
 
     @Override
@@ -31,7 +35,7 @@ public class Searcher implements FileVisitor<Path> {
     @Override
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
 
-        if (file.toFile().getName().endsWith(ext)) {
+        if (predicate.test(file)) {
             list.add(file);
         }
 //        SearchFiles<Path> seacher = new SearchFiles<Path>(p -> p.toFile​().getName.endsWith(ext))
