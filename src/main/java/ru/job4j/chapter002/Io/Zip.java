@@ -10,10 +10,22 @@ import java.util.zip.ZipOutputStream;
 
 public class Zip {
     public void packFiles(List<File> sources, File target) {
-        Zip zip = new Zip();
-        for (File file : sources) {
-            zip.packSingleFile(file, target);
+        try (ZipOutputStream zip = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(target)))) {
+            for (File source : sources) {
+                zip.putNextEntry(new ZipEntry(source.getPath()));
+                try (BufferedInputStream out = new BufferedInputStream(new FileInputStream(source))) {
+                    zip.write(out.readAllBytes());
+                }
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+//
+//        Zip zip = new Zip();
+//        for (File file : sources) {
+//            zip.packSingleFile(file, target);
+//        }
     }
 
     public void packSingleFile(File source, File target) {
@@ -38,7 +50,7 @@ public class Zip {
         Path start = Paths.get(directory);
         Search searchClass = new Search();
         List<Path> listTmp = searchClass.search(start, exclude);
-        for (Path path: listTmp) {
+        for (Path path : listTmp) {
             list.add(path.toFile());
         }
 
