@@ -17,17 +17,16 @@ public class Search {
             throw new IllegalArgumentException("File extension not specified.");
         }
         String firstParam = args[0];
-        String secondParam = args[1];
-
+        String ext = args[1];
 
         Path start = Paths.get(firstParam);
-        search(start, secondParam).forEach(System.out::println);
+        search(start, ext, (Predicate<Path>) p -> p.toFile().getName().endsWith(ext)).forEach(System.out::println);
     }
 
-    public static List<Path> search(Path root, String ext) {
+    public static List<Path> search(Path root, String ext, Predicate<Path> predicate) {
         List<Path> list;
         //Searcher searcher = new Searcher(ext, new SearchFiles<Path>(p -> p.toFile().getName().endsWith(ext)));
-        Searcher searcher = new Searcher(ext, (Predicate<Path>) p -> p.toFile().getName().endsWith(ext));
+        Searcher searcher = new Searcher(ext, predicate);
         try {
             Files.walkFileTree(root, (FileVisitor<? super Path>) searcher);
         } catch (IOException e) {
