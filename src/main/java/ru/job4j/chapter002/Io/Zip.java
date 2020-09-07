@@ -5,6 +5,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -49,11 +50,10 @@ public class Zip {
 
         Path start = Paths.get(directory);
         Search searchClass = new Search();
-        List<Path> listTmp = searchClass.search(start, exclude);
+        List<Path> listTmp = searchClass.search(start, exclude, (Predicate<Path>) p -> !p.toFile().getName().endsWith(exclude));
         for (Path path : listTmp) {
             list.add(path.toFile());
         }
-
 
         Zip zip = new Zip();
         zip.packFiles(list, new File(out));
