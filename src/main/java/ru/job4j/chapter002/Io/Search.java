@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 public class Search {
     public static void main(String[] args) throws IOException {
@@ -25,7 +26,8 @@ public class Search {
 
     public static List<Path> search(Path root, String ext) {
         List<Path> list;
-        Searcher searcher = new Searcher(ext, new SearchFiles(p -> p.toFile().getName.endsWith(ext)));
+        //Searcher searcher = new Searcher(ext, new SearchFiles<Path>(p -> p.toFile().getName().endsWith(ext)));
+        Searcher searcher = new Searcher(ext, (Predicate<Path>) p -> p.toFile().getName().endsWith(ext));
         try {
             Files.walkFileTree(root, (FileVisitor<? super Path>) searcher);
         } catch (IOException e) {

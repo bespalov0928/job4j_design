@@ -34,6 +34,10 @@ public class Searcher implements FileVisitor<Path> {
 
     @Override
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+//        if (file.toFile().getName().endsWith(ext)) {
+//
+//            list.add(file);
+//        }
 
         if (predicate.test(file)) {
             list.add(file);
