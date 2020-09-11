@@ -4,6 +4,7 @@ public class Continion implements UserActions {
 
     @Override
     public boolean execute(String input, Tracker tracker, String answer, boolean stop) {
+        tracker.addString(String.format("%s", input));
         //System.out.println(answer);
         return true;
     }

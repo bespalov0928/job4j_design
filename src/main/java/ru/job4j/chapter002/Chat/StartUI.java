@@ -30,6 +30,7 @@ public class StartUI {
             //System.out.println(stop);
             run = action.execute(select, tracker, listAnswer.get(random.nextInt(listAnswer.size() - 1)), stop);
         }
+        tracker.save("chat_log.txt");
     }
 
     private void showMenu(Map<String, UserActions> actions) {
