@@ -1,4 +1,4 @@
-package ru.job4j.chapter002.Chat;
+package ru.job4j.chapter002.Io.Chat;
 
 import java.io.*;
 import java.util.ArrayList;

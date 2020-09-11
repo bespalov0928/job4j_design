@@ -1,4 +1,4 @@
-package ru.job4j.chapter002.Chat;
+package ru.job4j.chapter002.Io.Chat;
 
 public interface Input {
     String askStr();

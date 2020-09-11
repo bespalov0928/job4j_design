@@ -1,6 +1,5 @@
-package ru.job4j.chapter002.Chat;
+package ru.job4j.chapter002.Io.Chat;
 
-import javax.print.attribute.standard.MediaSize;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.*;
