@@ -5,51 +5,50 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.function.Consumer;
 
 public class EchoServer {
+
+
     public static void main(String[] args) throws IOException {
         Map<String, Consumer<String>> map = new HashMap<>();
-        try (ServerSocket server = new ServerSocket(9004)) {
+        try (ServerSocket server = new ServerSocket(9003)) {
             while (!server.isClosed()) {
                 Socket socket = server.accept();
-                try (BufferedWriter out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+                try (BufferedOutputStream out = new BufferedOutputStream(socket.getOutputStream());
+                     //BufferedWriter out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
                      BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
-                    map = getMap(server, out);
-                    String str;
-                    while (!(str = in.readLine()).isEmpty()) {
+                    String str = in.readLine();
+                    if (str != null && !str.isEmpty()) {
+                        map = getMap(server, out);
                         System.out.println(str);
                         String[] arrFirst = str.split(" ");
-//                        for (String s:arrFirst) {
-//                            System.out.println(s);
-//                        }
-                        String strTmp = arrFirst[1];
-                        String[] arrSecond = strTmp.split("=");
-                        for (String s_ : arrSecond) {
-                            System.out.println(s_);
-                        }
+                        String strFirst = arrFirst[1];
+                        System.out.println("strTmp:" + strFirst);
 
-                        //System.out.println(arrSecond[1]);
-                        Consumer predicate = map.get(arrSecond[1]);
+                        String[] arrSecond = strFirst.split("=");
+
+                        String strSecond = arrSecond[1];
+                        Consumer predicate = map.get(strSecond);
+
+                        System.out.println("arrSecond[1]:" + strSecond);
                         if (predicate == null) {
-                            out.write("HTTP/1.1 200 OK\r\n\r\n");
-                            out.write(str + "\r\n\r\n");
+                            out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
+                            out.write(((String) str + "\r\n\r\n").getBytes());
                             out.flush();
-                            break;
+                        } else {
+                            predicate.accept(strSecond);
                         }
-                        predicate.accept(arrSecond[1]);
-                        break;
                     }
-                    //out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
-                    //out.write("Hello, dear friend.".getBytes());
-                    //out.flush();
                 }
             }
         }
     }
 
-    public static Map<String, Consumer<String>> getMap(ServerSocket server, BufferedWriter out) {
+    public static Map<String, Consumer<String>> getMap(ServerSocket server, OutputStream out) {
         Map<String, Consumer<String>> map = new HashMap<>();
+        //Scanner scanner = new Scanner(System.in);
         map.put("Bye", (String p) -> {
             try {
                 System.out.println("Bye:" + p + System.lineSeparator());
@@ -59,6 +58,7 @@ public class EchoServer {
             }
         });
         map.put("Exit", (String p) -> {
+            System.out.println("Exit:" + p + System.lineSeparator());
             try {
                 System.out.println("Exit:" + p + System.lineSeparator());
                 server.close();
@@ -69,8 +69,8 @@ public class EchoServer {
         map.put("Hello", (p) -> {
             try {
                 System.out.println("Hello:" + p + System.lineSeparator());
-                out.write("HTTP/1.1 200 OK\r\n\r\n");
-                out.write(String.format("%s\n", p));
+                out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
+                out.write(String.format("%s\n", p).getBytes());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -78,17 +78,20 @@ public class EchoServer {
         map.put("What", (p) -> {
             try {
                 System.out.println("What:" + p + System.lineSeparator());
-                out.write("HTTP/1.1 200 OK\r\n\r\n");
-                out.write(String.format("%s\n", p));
+                out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
+                out.write(String.format("%s\n", p).getBytes());
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
         map.put("Any", (String p) -> {
             try {
-                System.out.println("Any:" + p + System.lineSeparator());
-                out.write("HTTP/1.1 200 OK\r\n\r\n");
-                out.write(String.format("%s\n", p));
+                //String strTmp = scanner.nextLine();
+                Input input = new Input();
+                String strTmp = input.askStr();
+                System.out.println(strTmp + p + System.lineSeparator());
+                out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
+                out.write(String.format("%s\n", strTmp).getBytes());
             } catch (IOException e) {
                 e.printStackTrace();
             }
