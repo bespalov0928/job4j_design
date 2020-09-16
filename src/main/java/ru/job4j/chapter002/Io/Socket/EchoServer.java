@@ -23,22 +23,15 @@ public class EchoServer {
                     if (str != null && !str.isEmpty()) {
                         map = getMap(server, out);
                         System.out.println(str);
-                        String[] arrFirst = str.split(" ");
-                        String strFirst = arrFirst[1];
-                        System.out.println("strTmp:" + strFirst);
-
-                        String[] arrSecond = strFirst.split("=");
-
-                        String strSecond = arrSecond[1];
-                        Consumer predicate = map.get(strSecond);
-
-                        System.out.println("arrSecond[1]:" + strSecond);
+                        String request = parser(str);
+                        System.out.println("request: " + request);
+                        Consumer predicate = map.get(request);
                         if (predicate == null) {
                             out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
                             out.write(((String) str + "\r\n\r\n").getBytes());
                             out.flush();
                         } else {
-                            predicate.accept(strSecond);
+                            predicate.accept(request);
                         }
                     }
                 }
@@ -48,7 +41,7 @@ public class EchoServer {
 
     public static Map<String, Consumer<String>> getMap(ServerSocket server, OutputStream out) {
         Map<String, Consumer<String>> map = new HashMap<>();
-        //Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
         map.put("Bye", (String p) -> {
             try {
                 System.out.println("Bye:" + p + System.lineSeparator());
@@ -86,10 +79,10 @@ public class EchoServer {
         });
         map.put("Any", (String p) -> {
             try {
-                //String strTmp = scanner.nextLine();
+                String strTmp = scanner.nextLine();
                 Input input = new Input();
-                String strTmp = input.askStr();
-                System.out.println(strTmp + p + System.lineSeparator());
+                //String strTmp = input.askStr();
+                System.out.println(strTmp + " : " + p + System.lineSeparator());
                 out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
                 out.write(String.format("%s\n", strTmp).getBytes());
             } catch (IOException e) {
@@ -97,5 +90,23 @@ public class EchoServer {
             }
         });
         return map;
+    }
+
+    public static String parser(String request) {
+        String str = "";
+        String[] arrFirst = request.split(" ");
+        if (arrFirst.length < 2) {
+            return str;
+        }
+        String strFirst = arrFirst[1];
+        //System.out.println("strTmp:" + strFirst);
+
+        String[] arrSecond = strFirst.split("=");
+        if (arrSecond.length < 2) {
+            return str;
+        }
+        str = arrSecond[1];
+
+        return str;
     }
 }
