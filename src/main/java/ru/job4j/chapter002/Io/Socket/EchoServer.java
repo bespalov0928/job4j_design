@@ -12,26 +12,30 @@ public class EchoServer {
 
 
     public static void main(String[] args) throws IOException {
-        Map<String, Consumer<String>> map = new HashMap<>();
+        Map<String, String> map = getMapNew();
+        Scanner scanner = new Scanner(System.in);
+        String answer = "";
         try (ServerSocket server = new ServerSocket(9003)) {
             while (!server.isClosed()) {
                 Socket socket = server.accept();
                 try (BufferedOutputStream out = new BufferedOutputStream(socket.getOutputStream());
-                     //BufferedWriter out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
                      BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
                     String str = in.readLine();
+                    answer = str;
                     if (str != null && !str.isEmpty()) {
-                        map = getMap(server, out);
                         System.out.println(str);
                         String request = parser(str);
-                        System.out.println("request: " + request);
-                        Consumer predicate = map.get(request);
-                        if (predicate == null) {
-                            out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
-                            out.write(((String) str + "\r\n\r\n").getBytes());
-                            out.flush();
-                        } else {
-                            predicate.accept(request);
+                        if (request.equals("Hello")) {
+                            answer = "Hello";
+                        } else if (request.equals("Any")) {
+                            answer = scanner.nextLine();
+                        }
+                        out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
+                        out.write(answer.getBytes());
+                        out.flush();
+                        if (request.equals("Exit")) {
+                            //server.close();
+                            break;
                         }
                     }
                 }
@@ -39,58 +43,67 @@ public class EchoServer {
         }
     }
 
-    public static Map<String, Consumer<String>> getMap(ServerSocket server, OutputStream out) {
-        Map<String, Consumer<String>> map = new HashMap<>();
-        Scanner scanner = new Scanner(System.in);
-        map.put("Bye", (String p) -> {
-            try {
-                System.out.println("Bye:" + p + System.lineSeparator());
-                server.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-        map.put("Exit", (String p) -> {
-            System.out.println("Exit:" + p + System.lineSeparator());
-            try {
-                System.out.println("Exit:" + p + System.lineSeparator());
-                server.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-        map.put("Hello", (p) -> {
-            try {
-                System.out.println("Hello:" + p + System.lineSeparator());
-                out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
-                out.write(String.format("%s\n", p).getBytes());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-        map.put("What", (p) -> {
-            try {
-                System.out.println("What:" + p + System.lineSeparator());
-                out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
-                out.write(String.format("%s\n", p).getBytes());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-        map.put("Any", (String p) -> {
-            try {
-                String strTmp = scanner.nextLine();
-                Input input = new Input();
-                //String strTmp = input.askStr();
-                System.out.println(strTmp + " : " + p + System.lineSeparator());
-                out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
-                out.write(String.format("%s\n", strTmp).getBytes());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
+    public static Map<String, String> getMapNew() {
+        Map<String, String> map = new HashMap<>();
+        map.put("Exit", "Exit");
+        map.put("Hello", "Hello");
+        map.put("What", "What");
+        map.put("Any", "");
         return map;
     }
+
+//    public static Map<String, Consumer<String>> getMap(ServerSocket server, OutputStream out) {
+//        Map<String, Consumer<String>> map = new HashMap<>();
+//        Scanner scanner = new Scanner(System.in);
+//        map.put("Bye", (String p) -> {
+//            try {
+//                System.out.println("Bye:" + p + System.lineSeparator());
+//                server.close();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        });
+//        map.put("Exit", (String p) -> {
+//            System.out.println("Exit:" + p + System.lineSeparator());
+//            try {
+//                System.out.println("Exit:" + p + System.lineSeparator());
+//                server.close();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        });
+//        map.put("Hello", (p) -> {
+//            try {
+//                System.out.println("Hello:" + p + System.lineSeparator());
+//                out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
+//                out.write(String.format("%s\n", p).getBytes());
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        });
+//        map.put("What", (p) -> {
+//            try {
+//                System.out.println("What:" + p + System.lineSeparator());
+//                out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
+//                out.write(String.format("%s\n", p).getBytes());
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        });
+//        map.put("Any", (String p) -> {
+//            try {
+//                String strTmp = scanner.nextLine();
+//                Input input = new Input();
+//                //String strTmp = input.askStr();
+//                System.out.println(strTmp + " : " + p + System.lineSeparator());
+//                out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
+//                out.write(String.format("%s\n", strTmp).getBytes());
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        });
+//        return map;
+//    }
 
     public static String parser(String request) {
         String str = "";
