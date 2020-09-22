@@ -1,5 +1,8 @@
 package ru.job4j.chapter002.Io.Socket;
 
+import org.slf4j.LoggerFactory;
+import ru.job4j.chapter002.Io.Logs.UsageLog4j;
+
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -7,9 +10,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.function.Consumer;
+//import java.util.logging.Logger;
+import org.slf4j.*;
 
 public class EchoServer {
 
+    private static final Logger LOG = (Logger) LoggerFactory.getLogger(UsageLog4j.class.getName());
 
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
@@ -34,8 +40,12 @@ public class EchoServer {
                             break;
                         }
                     }
+                } catch (Exception e) {
+                    LOG.error("Ошибка обработки запроса", e);
                 }
             }
+        } catch (Exception e) {
+            LOG.error("Ошибка работы сервера:", e);
         }
     }
 
