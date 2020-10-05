@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.function.Predicate;
 import java.util.regex.*;
 
@@ -17,21 +18,7 @@ public class FindFile {
     private static final Logger LOG = (Logger) LoggerFactory.getLogger(UsageLog4j.class.getName());
 
     public static void main(String[] args) {
-        if (args.length == 0) {
-            throw new IllegalArgumentException(String.format("Не указан ключ поиска директории %s", "-d"));
-        } else if (args.length == 1) {
-            throw new IllegalArgumentException(String.format("Не указана директория поиска", ""));
-        } else if (args.length == 2) {
-            throw new IllegalArgumentException(String.format("не указан ключ поиска файла %s", "-n"));
-        } else if (args.length == 3) {
-            throw new IllegalArgumentException(String.format("не указан файл поиска", ""));
-        } else if (args.length == 4) {
-            throw new IllegalArgumentException(String.format("не указан ключ варианта поиска %s или %s или %s", "-m - искать по макс, либо", "-f - полное совпадение имени", "-r регулярное выражение"));
-        } else if (args.length == 5) {
-            throw new IllegalArgumentException(String.format("не указан ключ записи в Log файл %s", "-o"));
-        } else if (args.length == 6) {
-            throw new IllegalArgumentException(String.format("Не указан путь к файлу Log", ""));
-        }
+        Args.check(args);
 
         String wayFind = args[1];   //-d - директория в которая начинать поиск.
         String fileFind = args[3];//"*.txt";//args[3];  //-n - имя файл, маска, либо регулярное выражение.
@@ -39,22 +26,7 @@ public class FindFile {
         String log = args[6];//"C:\\projects\\job4j_design\\log.txt";//args[6];       //-o - результат записать в файл.
 
         Path paathFileFind = Paths.get(wayFind);
-        Predicate predicate = new Predicate<Path>() {
-            @Override
-            public boolean test(Path o) {
-                boolean rsl = false;
-                if (searchBy.equals("-m")) {
-                    rsl = o.toFile().getName().endsWith(fileFind.substring(2));
-                } else if (searchBy.equals("-f")) {
-                    rsl = o.toFile().getName().equals(fileFind);
-                } else if (searchBy.equals("-r")) {
-                    Pattern p = Pattern.compile(fileFind);
-                    Matcher m = p.matcher(wayFind);
-                    rsl = m.matches();
-                }
-                return rsl;
-            }
-        };
+        Predicate predicate = CreatePredicate.newPredicate(searchBy, fileFind, wayFind);
         FileFisitClass fileFisitClass = new FileFisitClass(fileFind, predicate);
 
         try {
@@ -64,16 +36,22 @@ public class FindFile {
             LOG.error("Ошибка поиска файла", e);
         }
 
+        List<Path> list = fileFisitClass.getList();
+        save(list, log, wayFind, fileFind);
+    }
+
+    private static void save(List<Path> list, String log, String wayFind, String fileFind) {
         try (BufferedWriter out = new BufferedWriter(new FileWriter(log, true));
         ) {
             out.write(String.format("-d %s -n %s -m -o $s", wayFind, fileFind, log));
-            for (Path str : fileFisitClass.getList()) {
+            for (Path str : list) {
                 out.write(str + System.lineSeparator());
             }
         } catch (IOException e) {
             //e.printStackTrace();
             LOG.error("Ошибка записи LOG файла", e);
         }
-        fileFisitClass.getList().forEach(System.out::println);
+        list.forEach(System.out::println);
     }
+
 }
