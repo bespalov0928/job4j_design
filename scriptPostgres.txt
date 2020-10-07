@@ -1,0 +1,34 @@
+create database bikes_db;
+
+sql> create table bikes(
+       id serial primary key,
+       brend varchar(255),
+       tip text,
+       weight int,
+       sport boolean
+     )
+[2020-10-07 11:47:10] completed in 108 ms
+sql> select current_database() as a, current_schemas(false) as b
+[2020-10-07 11:47:10] completed in 11 ms
+
+insert into bikes(brend, tip, weight, sport) values('colnago', 'sport', 5000, true);
+sql> insert into bikes(brend, tip, weight, sport) values('colnago', 'sport', 5000, true)
+[2020-10-07 11:55:26] 1 row affected in 13 ms
+sql> select current_database() as a, current_schemas(false) as b
+[2020-10-07 11:55:26] completed in 14 ms
+
+select * from bikes;
+
+sql> update bikes set brend = 'bianche', tip = 'sport', weight = 6000, sport = true
+[2020-10-07 11:59:01] 1 row affected in 22 ms
+sql> select current_database() as a, current_schemas(false) as b
+[2020-10-07 11:59:01] completed in 25 ms
+
+select * from bikes;
+
+sql> delete from bikes
+[2020-10-07 12:00:51] 1 row affected in 6 ms
+sql> select current_database() as a, current_schemas(false) as b
+[2020-10-07 12:00:51] completed in 12 ms
+
+select * from bikes;
