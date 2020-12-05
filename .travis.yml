@@ -22,3 +22,9 @@ notifications:
 env:
   global:
   - f353f0b0-e555-4aa2-9e53-4a0d95b1914d
+
+services:
+- postgresql
+
+before_install:
+- psql -c 'create database tracker;' -U postgres

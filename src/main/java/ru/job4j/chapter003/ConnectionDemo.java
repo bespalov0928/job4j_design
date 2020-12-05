@@ -38,9 +38,9 @@ public class ConnectionDemo {
                 Integer indexPas = line.lastIndexOf("password");
                 Integer indexName = line.lastIndexOf("username");
                 if (indexPas > 0) {
-                    rsl.put("password", line.substring(line.indexOf("=")));
+                    rsl.put("password", line.substring(line.indexOf("=") + 1));
                 } else if (indexName > 0) {
-                    rsl.put("username", line.substring(line.indexOf("=")));
+                    rsl.put("username", line.substring(line.indexOf("=") + 1));
                 }
             }
         } catch (FileNotFoundException e) {
