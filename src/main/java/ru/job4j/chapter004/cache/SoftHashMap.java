@@ -5,30 +5,22 @@ import java.util.HashMap;
 
 public class SoftHashMap<K, V> {
 
-    private HashMap<SoftReference<K>, V> softMap;
-    private HashMap<K, SoftReference<K>> keyMap = new HashMap<>();
+    private HashMap<K, SoftReference<V>> softMap;
+    //private HashMap<K, SoftReference<K>> keyMap = new HashMap<>();
 
     public SoftHashMap() {
-        this.softMap = new HashMap<SoftReference<K>, V>();
+        this.softMap = new HashMap<K, SoftReference<V>>();
     }
 
-
     public V take(K key) {
-        SoftReference newKey = keyMap.get(key);
-        if (newKey == null) {
-            newKey = new SoftReference(key);
-            keyMap.put(key, newKey);
 
-        }
-
-        V rsl = softMap.get(newKey);
+        SoftReference<V> rsl = softMap.get(key);
         if (rsl == null) {
             ReadFile read = new ReadFile();
-            rsl = (V) read.loadDate(key);
-
-            softMap.put(newKey, rsl);
+            rsl = new SoftReference(read.loadDate(key));
+            softMap.put(key, rsl);
         }
-        return rsl;
+        return rsl.get();
     }
 
 }
