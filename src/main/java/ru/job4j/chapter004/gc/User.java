@@ -1,5 +1,5 @@
 package ru.job4j.chapter004.gc;
-
+import static com.carrotsearch.sizeof.RamUsageEstimator.sizeOf;
 public class User {
 
     //private int age;
@@ -7,8 +7,8 @@ public class User {
 
     @Override
     protected void finalize() throws Throwable {
+        //System.out.printf("Removed %d %n", sizeOf(this));
         System.out.printf("Removed %d %n", hashCode());
-        //System.out.println("456");
     }
 
 }

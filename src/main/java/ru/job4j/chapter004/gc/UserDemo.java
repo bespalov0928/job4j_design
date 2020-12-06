@@ -1,5 +1,5 @@
 package ru.job4j.chapter004.gc;
-
+//import static com.carrotsearch.sizeof.RamUsageEstimator.sizeOf;
 public class UserDemo {
 
     private static final long KB = 1000;
@@ -20,7 +20,7 @@ public class UserDemo {
         info();
         System.gc();
         System.out.println("start");
-        for (int i = 0; i < 35000; i++) {
+        for (int i = 0; i < 45000; i++) {
             new User();
         }
         //System.gc();
