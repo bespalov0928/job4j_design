@@ -20,7 +20,7 @@ public class SoftHashMap<K, V> {
             rsl = new SoftReference(read.loadDate(key));
             softMap.put(key, rsl);
         }
-        return rsl.get();
+        return (V) rsl;
     }
 
 }

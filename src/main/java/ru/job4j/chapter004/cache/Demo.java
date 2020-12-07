@@ -1,5 +1,6 @@
 package ru.job4j.chapter004.cache;
 
+import java.lang.ref.SoftReference;
 import java.util.ArrayList;
 
 public class Demo {
@@ -7,9 +8,9 @@ public class Demo {
 
 
         SoftHashMap cache = new SoftHashMap();
-        ArrayList temp1 = (ArrayList) cache.take("Names.txt");
-        ArrayList temp2 = (ArrayList) cache.take("Address.txt");
+        SoftReference<ArrayList> temp1 = (SoftReference<ArrayList>) cache.take("Names.txt");
+        SoftReference<ArrayList> temp2 = (SoftReference<ArrayList>) cache.take("Address.txt");
         System.gc();
-        ArrayList temp3 = (ArrayList) cache.take("Names.txt");
+        SoftReference<ArrayList> temp3 = (SoftReference<ArrayList>) cache.take("Names.txt");
     }
 }
