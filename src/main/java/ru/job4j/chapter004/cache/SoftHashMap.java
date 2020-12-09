@@ -13,17 +13,16 @@ public class SoftHashMap<K, V> {
     }
 
     public V take(K key) {
-
-        SoftReference<V> value = softMap.get(key);
         V rsl = null;
-        if (value == null) {
-            ReadFile read = new ReadFile();
-            value = new SoftReference(read.loadDate(key));
-            rsl = value.get();
-            softMap.put(key, value);
-        } else{
-            rsl = value.get();
+        if (softMap.containsKey(key)) {
+            rsl = softMap.get(key).get();
         }
+
+        if (rsl == null || !softMap.containsKey(key)) {
+            rsl = (V) new ReadFile().loadDate(key);
+            softMap.put(key, new SoftReference(rsl));
+        }
+
         return (V) rsl;
     }
 
