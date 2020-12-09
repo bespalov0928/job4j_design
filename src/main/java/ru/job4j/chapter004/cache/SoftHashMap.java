@@ -14,11 +14,15 @@ public class SoftHashMap<K, V> {
 
     public V take(K key) {
 
-        SoftReference<V> rsl = softMap.get(key);
-        if (rsl == null) {
+        SoftReference<V> value = softMap.get(key);
+        V rsl = null;
+        if (value == null) {
             ReadFile read = new ReadFile();
-            rsl = new SoftReference(read.loadDate(key));
-            softMap.put(key, rsl);
+            value = new SoftReference(read.loadDate(key));
+            rsl = value.get();
+            softMap.put(key, value);
+        } else{
+            rsl = value.get();
         }
         return (V) rsl;
     }
