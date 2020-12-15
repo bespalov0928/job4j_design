@@ -1,5 +1,7 @@
 package ru.job4j.chapter004.gc;
 
+import com.sun.source.tree.WhileLoopTree;
+
 public class GCDemo {
     private static final long KB = 1000;
     private static final long MB = KB * KB;
@@ -16,11 +18,13 @@ public class GCDemo {
     }
 
     public static void main(String[] args) {
-        info();
-        for (int i = 0; i < 1000; i++) {
-            new Person(i, "N" + i);
+        while (true) {
+            info();
+            for (int i = 0; i < 1000; i++) {
+                new Person(i, "N" + i);
+            }
+            System.gc();
+            info();
         }
-        System.gc();
-        info();
     }
 }
