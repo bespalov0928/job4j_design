@@ -1,4 +1,4 @@
-package ru.job4j.chapter005.tdd;
+package ru.job4j.chapter005._tdd;
 
 import java.util.ArrayList;
 import java.util.Comparator;
