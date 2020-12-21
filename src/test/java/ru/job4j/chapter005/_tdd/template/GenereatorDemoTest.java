@@ -23,7 +23,7 @@ public class GenereatorDemoTest {
     }
 
     //в шаблоне ключей больше чем в карте
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void produceVariant1() {
         String template = "I am a ${name}, Who are ${subject}?";
         Map<String, String> srgs = new HashMap<>();
@@ -33,7 +33,7 @@ public class GenereatorDemoTest {
     }
 
     //в карте больше ключей чем в шаблоне
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void produceVariant2() {
         String template = "I am a ${name}, Who are ${subject}?";
         Map<String, String> srgs = new HashMap<>();
