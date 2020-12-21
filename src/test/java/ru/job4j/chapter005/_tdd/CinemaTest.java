@@ -21,7 +21,7 @@ public class CinemaTest {
 
 
     //место уже занято
-    @Test(expected = NullPointerException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void buyOccupiedPlace() {
         Account account = new AccountCinema();
         Cinema cinema = new Cinema3D();
@@ -32,13 +32,11 @@ public class CinemaTest {
     }
 
     //несуществующее место
-    @Test(expected = NumberFormatException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void buyFantomPlace() {
         Account account = new AccountCinema();
         Cinema cinema = new Cinema3D();
-        Scanner s = new Scanner("dsfg");
-        String row = s.nextLine();
-        Integer.parseInt(row);
+        List<Session> sessions = cinema.find(session -> true);
     }
 
     //некоррктная дата
@@ -52,12 +50,6 @@ public class CinemaTest {
         boolean rsl = true;
         date.set(2020, 13, 40, 00, 00);
         date.getTime();
-//        try {
-//            date.getTime();
-//        } catch (Exception e) {
-//            rsl = false;
-//        }
-//        assertThat(false, is(rsl));
     }
 
     @Test
