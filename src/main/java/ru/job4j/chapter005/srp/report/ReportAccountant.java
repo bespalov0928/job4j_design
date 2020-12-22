@@ -22,7 +22,7 @@ public class ReportAccountant implements Report {
             text.append(employer.getName()).append(";")
                     .append(employer.getHired()).append(";")
                     .append(employer.getFired()).append(";")
-                    .append(employer.getSalary()).append(";");
+                    .append(employer.getSalary()).append(" $;");
         }
         return text.toString();
 

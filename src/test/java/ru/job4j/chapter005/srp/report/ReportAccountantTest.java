@@ -23,7 +23,7 @@ public class ReportAccountantTest {
                 .append(worker.getName()).append(";")
                 .append(worker.getHired()).append(";")
                 .append(worker.getFired()).append(";")
-                .append(worker.getSalary()).append(";");
+                .append(worker.getSalary()).append(" $;");
         //.append(System.lineSeparator());
         assertThat(engine.generate(em -> true), is(expect.toString()));
 
