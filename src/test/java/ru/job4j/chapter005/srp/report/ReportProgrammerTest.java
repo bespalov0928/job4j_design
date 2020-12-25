@@ -50,7 +50,7 @@ public class ReportProgrammerTest {
                 "  </table>\n" +
                 " </body>\n" +
                 "</html>";
-        String rsl = engine.generate(em -> true);
+        String rsl = engine.generate(em -> true, new ReportHtml());
         assertThat(rsl, is(expect));
 
     }

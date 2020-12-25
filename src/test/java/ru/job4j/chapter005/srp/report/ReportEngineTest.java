@@ -24,7 +24,7 @@ public class ReportEngineTest {
                 .append(worker.getFired()).append(";")
                 .append(worker.getSalary()).append(";");
                 //.append(System.lineSeparator());
-        assertThat(engine.generate(em -> true), is(expect.toString()));
+        assertThat(engine.generate(em -> true, new ReportText()), is(expect.toString()));
 
     }
 }

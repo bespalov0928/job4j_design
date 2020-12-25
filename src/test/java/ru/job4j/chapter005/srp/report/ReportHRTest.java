@@ -22,14 +22,14 @@ public class ReportHRTest {
 
         ReportHR engine = new ReportHR(store);
         StringBuilder expect = new StringBuilder()
-                .append("Name; Salary")
+               .append("Name; Salary").append(";")
                 .append(worker1.getName()).append(";")
                 .append(worker1.getSalary()).append(";")
                 .append(worker.getName()).append(";")
                 .append(worker.getSalary()).append(";")
                 .append(worker2.getName()).append(";")
                 .append(worker2.getSalary()).append(";");
-        String rsl = engine.generate(em -> true);
+        String rsl = engine.generate(em -> true, new ReportText());
         assertThat(rsl, is(expect.toString()));
 
     }
