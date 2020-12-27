@@ -53,8 +53,8 @@ public class Food {
         return disscount;
     }
 
-    public void setDisscount(Integer disscount) {
-        this.disscount = disscount;
+    public void setDisscount() {
+        this.disscount = this.price - this.disscount;
     }
 
     public double getTerm() {
