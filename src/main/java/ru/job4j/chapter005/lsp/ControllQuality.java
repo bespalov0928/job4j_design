@@ -17,22 +17,24 @@ public class ControllQuality {
             }
         }
     }
-//    public Zone selection(Food food, Integer disscount) {
-//        Zone zone = null;
-//        if (food.getTerm() < 25) {
-//            zone = new Warehouse();
-//            zone.addList(food);
-//        } else if (food.getTerm() >= 25 && food.getTerm() < 75) {
-//            zone = new Shop();
-//            zone.addList(food);
-//        } else if (food.getTerm() >= 75 && food.getTerm() < 100) {
-//            food.setDisscount(disscount);
-//            zone = new Shop();
-//            zone.addList(food);
-//        } else if (food.getTerm() >= 100) {
-//            zone = new Trash();
-//            zone.addList(food);
-//        }
-//        return zone;
-//    }
+
+    public void resort() {
+        List<Food> listFood = new ArrayList<Food>();
+        for (Store store: list) {
+            listFood.addAll(listFood.size(), store.getList());
+        }
+
+        list.clear();
+        list.add(new Shop());
+        list.add(new Warehouse());
+        list.add(new Trash());
+
+        for (Food food: listFood) {
+            for (Store store : list) {
+                if (store.accept(food)){
+                    store.add(food);
+                }
+            }
+        }
+    }
 }

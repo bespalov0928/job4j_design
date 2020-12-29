@@ -21,4 +21,14 @@ public class Shop implements Store {
         }
         return rsl;
     }
+
+    @Override
+    public List<Food> getList() {
+        return list;
+    }
+
+    @Override
+    public void removeAllList() {
+        list.clear();
+    }
 }
