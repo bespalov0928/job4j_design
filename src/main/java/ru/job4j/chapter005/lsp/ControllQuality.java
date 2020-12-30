@@ -33,6 +33,7 @@ public class ControllQuality {
             for (Store store : list) {
                 if (store.accept(food)){
                     store.add(food);
+                    break;
                 }
             }
         }
