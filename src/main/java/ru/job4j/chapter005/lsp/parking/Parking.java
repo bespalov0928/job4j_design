@@ -1,16 +1,23 @@
 package ru.job4j.chapter005.lsp.parking;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Parking {
-    private static List<Place> parking = new ArrayList<>();
+    private static Place[] parkingArr = new Place[20];
 
-    public List<Place> getParking() {
-        return parking;
+    public Parking(int passengerPlace, int trackPlace) {
+        for (int index = 0; index < passengerPlace; index++) {
+            parkingArr[index] = new PlacePassenger();
+        }
+        for (int index = 0; index < trackPlace; index++) {
+            parkingArr[index] = new PlaceTrack();
+        }
     }
 
-    public void setParking(List<Place> parking) {
-        this.parking = parking;
+    public Place[] getParking() {
+        return parkingArr;
+    }
+
+        public void setParking(Car car) {
+        Integer[] arrPlace = car.setPlace(parkingArr);
+        //todo
     }
 }

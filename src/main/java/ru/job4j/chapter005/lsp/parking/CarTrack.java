@@ -1,7 +1,5 @@
 package ru.job4j.chapter005.lsp.parking;
 
-import java.util.List;
-
 public class CarTrack implements Car {
     private Integer counrPlacePark;
 
@@ -10,7 +8,12 @@ public class CarTrack implements Car {
     }
 
     @Override
-    public List<Place> getCountPlace() {
+    public Integer getCountPlace() {
+        return counrPlacePark;
+    }
+
+    @Override
+    public Integer[] setPlace(Place[] arr) {
         return null;
     }
 }

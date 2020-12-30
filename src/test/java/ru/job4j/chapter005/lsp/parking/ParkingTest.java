@@ -11,32 +11,41 @@ import static org.junit.Assert.*;
 public class ParkingTest {
 
     @Test
-    public void getParking() {
-
-    }
-
-    @Test
     public void setParkingTrack() {
-        Parking parking = new Parking();
-        Car car = new CarTrack(2);
-        List<Place> list = car.getCountPlace();
-        parking.setParking(list);
-        List<Place> rsl = parking.getParking();
-        List<Place> extend = new ArrayList<>();
-        extend.add(new Place());
-        extend.add(new Place());
+        Parking parking = new Parking(15,5);
+        Car car = new CarTrack(1);
+        parking.setParking(car);
+        Place[] rsl = parking.getParking();
+
+        List<PlacePassenger> extend = new ArrayList<>();
+        extend.add(new PlacePassenger());
+        extend.add(new PlacePassenger());
         assertThat(extend, is(rsl));
     }
 
     @Test
     public void setParkingPassenger() {
-        Parking parking = new Parking();
-        Car car = new PassengerCar(1);
-        List<Place> list = car.getCountPlace();
-        parking.setParking(list);
-        List<Place> rsl = parking.getParking();
-        List<Place> extend = new ArrayList<>();
-        extend.add(new Place());
+        Parking parking = new Parking(15,5);
+        Car car = new PassengerCar();
+        parking.setParking(car);
+        Place[] rsl = parking.getParking();
+
+        List<PlacePassenger> extend = new ArrayList<>();
+        extend.add(new PlacePassenger());
+        assertThat(extend, is(rsl));
+    }
+
+    @Test
+    public void setParkingTrackPlacePassanger() {
+        Parking parking = new Parking(15,5);
+        Car car = new CarTrack(3);
+        parking.setParking(car);
+        Place[] rsl = parking.getParking();
+
+        List<PlacePassenger> extend = new ArrayList<>();
+        extend.add(new PlacePassenger());
+        extend.add(new PlacePassenger());
+        extend.add(new PlacePassenger());
         assertThat(extend, is(rsl));
     }
 }
