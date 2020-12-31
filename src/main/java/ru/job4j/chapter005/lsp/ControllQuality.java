@@ -18,16 +18,14 @@ public class ControllQuality {
         }
     }
 
-    public void resort() {
+    public void resort(List<Store> listStore) {
         List<Food> listFood = new ArrayList<Food>();
         for (Store store: list) {
             listFood.addAll(listFood.size(), store.getList());
         }
 
         list.clear();
-        list.add(new Shop());
-        list.add(new Warehouse());
-        list.add(new Trash());
+        list.addAll(listStore);
 
         for (Food food: listFood) {
             for (Store store : list) {
