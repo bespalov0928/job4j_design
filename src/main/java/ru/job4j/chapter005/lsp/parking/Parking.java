@@ -16,8 +16,8 @@ public class Parking {
         return parkingArr;
     }
 
-        public void setParking(Car car) {
-        Integer[] arrPlace = car.setPlace(parkingArr);
+        public void setParking(Car car, Place plase) {
+        Integer[] arrPlace = plase.setPlace(car);
         //todo
     }
 }

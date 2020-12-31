@@ -7,8 +7,4 @@ public class PassengerCar implements Car {
         return 1;
     }
 
-    @Override
-    public Integer[] setPlace(Place[] arr) {
-        return null;
-    }
 }

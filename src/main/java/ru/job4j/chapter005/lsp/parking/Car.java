@@ -4,6 +4,4 @@ import java.util.List;
 
 public interface Car {
     Integer getCountPlace();
-
-    Integer[] setPlace(Place[] arr);
 }

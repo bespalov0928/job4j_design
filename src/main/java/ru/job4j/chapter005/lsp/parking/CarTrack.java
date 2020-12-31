@@ -12,8 +12,4 @@ public class CarTrack implements Car {
         return counrPlacePark;
     }
 
-    @Override
-    public Integer[] setPlace(Place[] arr) {
-        return null;
-    }
 }

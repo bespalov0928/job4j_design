@@ -14,12 +14,12 @@ public class ParkingTest {
     public void setParkingTrack() {
         Parking parking = new Parking(15,5);
         Car car = new CarTrack(1);
-        parking.setParking(car);
+        parking.setParking(car, new PlaceTrack());
         Place[] rsl = parking.getParking();
 
-        List<PlacePassenger> extend = new ArrayList<>();
-        extend.add(new PlacePassenger());
-        extend.add(new PlacePassenger());
+        List<PlaceTrack> extend = new ArrayList<>();
+        extend.add(new PlaceTrack());
+        extend.add(new PlaceTrack());
         assertThat(extend, is(rsl));
     }
 
@@ -27,7 +27,7 @@ public class ParkingTest {
     public void setParkingPassenger() {
         Parking parking = new Parking(15,5);
         Car car = new PassengerCar();
-        parking.setParking(car);
+        parking.setParking(car, new PlacePassenger());
         Place[] rsl = parking.getParking();
 
         List<PlacePassenger> extend = new ArrayList<>();
@@ -39,7 +39,7 @@ public class ParkingTest {
     public void setParkingTrackPlacePassanger() {
         Parking parking = new Parking(15,5);
         Car car = new CarTrack(3);
-        parking.setParking(car);
+        parking.setParking(car, new PlacePassenger());
         Place[] rsl = parking.getParking();
 
         List<PlacePassenger> extend = new ArrayList<>();
