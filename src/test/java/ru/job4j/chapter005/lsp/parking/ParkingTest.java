@@ -11,41 +11,52 @@ import static org.junit.Assert.*;
 public class ParkingTest {
 
     @Test
-    public void setParkingTrack() {
-        Parking parking = new Parking(15,5);
+    public void setParkingTrackTrue() {
+        ParkingTrack parking = new ParkingTrack(3);
+        boolean rsl = parking.add(new CarTrack(1));
+        boolean extend = true;
+        assertThat(extend, is(rsl));
+    }
+
+    @Test
+    public void setParkingTrackFalse() {
+        ParkingTrack parking = new ParkingTrack(3);
         Car car = new CarTrack(1);
-        parking.setParking(car, new PlaceTrack());
-        Place[] rsl = parking.getParking();
-
-        List<PlaceTrack> extend = new ArrayList<>();
-        extend.add(new PlaceTrack());
-        extend.add(new PlaceTrack());
+        parking.add(new CarTrack(1));
+        parking.add(new CarTrack(1));
+        boolean rsl = parking.add(new CarTrack(1));
+        boolean extend = false;
         assertThat(extend, is(rsl));
     }
 
     @Test
-    public void setParkingPassenger() {
-        Parking parking = new Parking(15,5);
-        Car car = new PassengerCar();
-        parking.setParking(car, new PlacePassenger());
-        Place[] rsl = parking.getParking();
-
-        List<PlacePassenger> extend = new ArrayList<>();
-        extend.add(new PlacePassenger());
+    public void setParkingPassengerTrue() {
+        ParkingPassenger parking = new ParkingPassenger(3);
+        parking.add(new CarPassenger());
+        boolean rsl = parking.add(new CarPassenger());
+        boolean extend = true;
         assertThat(extend, is(rsl));
     }
 
     @Test
-    public void setParkingTrackPlacePassanger() {
-        Parking parking = new Parking(15,5);
-        Car car = new CarTrack(3);
-        parking.setParking(car, new PlacePassenger());
-        Place[] rsl = parking.getParking();
+    public void setParkingPassengerFalse() {
+        ParkingPassenger parking = new ParkingPassenger(3);
+        parking.add(new CarPassenger());
+        parking.add(new CarPassenger());
+        parking.add(new CarPassenger());
+        boolean rsl = parking.add(new CarPassenger());
+        boolean extend = false;
+        assertThat(extend, is(rsl));
+    }
 
-        List<PlacePassenger> extend = new ArrayList<>();
-        extend.add(new PlacePassenger());
-        extend.add(new PlacePassenger());
-        extend.add(new PlacePassenger());
+    @Test
+    public void setParkingTrackPlacePassangerTrue() {
+        ParkingPassenger parking = new ParkingPassenger(3);
+        Car car = new CarTrack(2);
+        parking.add(new CarPassenger());
+        boolean rsl = parking.add(new CarTrack(2));
+        boolean extend = true;
+
         assertThat(extend, is(rsl));
     }
 }

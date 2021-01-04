@@ -1,6 +1,6 @@
 package ru.job4j.chapter005.lsp.parking;
 
-public class PassengerCar implements Car {
+public class CarPassenger implements Car {
 
     @Override
     public Integer getCountPlace() {

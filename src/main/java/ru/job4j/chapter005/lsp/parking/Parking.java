@@ -1,19 +1,11 @@
 package ru.job4j.chapter005.lsp.parking;
 
-public class Parking implements ParkingInteface {
-    private static Place[] parkingArr = new Place[20];
+import java.util.function.Consumer;
 
-    public Parking(int passengerPlace, int trackPlace) {
-        for (int index = 0; index < passengerPlace; index++) {
-            parkingArr[index] = new PlacePassenger();
-        }
-        for (int index = 0; index < trackPlace; index++) {
-            parkingArr[index] = new PlaceTrack();
-        }
-    }
+public interface Parking {
 
-    public void setParking(Car car, Place plase) {
-        Integer[] arrPlace = plase.setPlace(car);
-        //todo
-    }
+    boolean accept(Car car);
+
+    boolean add(Car car);
+
 }
