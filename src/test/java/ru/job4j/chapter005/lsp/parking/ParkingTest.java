@@ -2,9 +2,6 @@ package ru.job4j.chapter005.lsp.parking;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
@@ -12,7 +9,7 @@ public class ParkingTest {
 
     @Test
     public void setParkingTrackTrue() {
-        ParkingTrack parking = new ParkingTrack(3);
+        ParkingCar parking = new ParkingCar(3,3);
         boolean rsl = parking.add(new CarTrack(1));
         boolean extend = true;
         assertThat(extend, is(rsl));
@@ -20,8 +17,8 @@ public class ParkingTest {
 
     @Test
     public void setParkingTrackFalse() {
-        ParkingTrack parking = new ParkingTrack(3);
-        Car car = new CarTrack(1);
+        ParkingCar parking = new ParkingCar(3,3);
+        parking.add(new CarTrack(1));
         parking.add(new CarTrack(1));
         parking.add(new CarTrack(1));
         boolean rsl = parking.add(new CarTrack(1));
@@ -31,7 +28,7 @@ public class ParkingTest {
 
     @Test
     public void setParkingPassengerTrue() {
-        ParkingPassenger parking = new ParkingPassenger(3);
+        ParkingCar parking = new ParkingCar(3, 3);
         parking.add(new CarPassenger());
         boolean rsl = parking.add(new CarPassenger());
         boolean extend = true;
@@ -40,7 +37,7 @@ public class ParkingTest {
 
     @Test
     public void setParkingPassengerFalse() {
-        ParkingPassenger parking = new ParkingPassenger(3);
+        ParkingCar parking = new ParkingCar(3,3);
         parking.add(new CarPassenger());
         parking.add(new CarPassenger());
         parking.add(new CarPassenger());
@@ -51,12 +48,11 @@ public class ParkingTest {
 
     @Test
     public void setParkingTrackPlacePassangerTrue() {
-        ParkingPassenger parking = new ParkingPassenger(3);
+        ParkingCar parking = new ParkingCar(3,3);
         Car car = new CarTrack(2);
         parking.add(new CarPassenger());
         boolean rsl = parking.add(new CarTrack(2));
         boolean extend = true;
-
         assertThat(extend, is(rsl));
     }
 }
