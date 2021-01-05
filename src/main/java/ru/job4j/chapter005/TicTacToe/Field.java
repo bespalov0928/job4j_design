@@ -7,16 +7,12 @@ public class Field {
     private Mark[][] table;
     private boolean nextGamerX;
 
-    public Field(Mark[][] table) {
-        this.table = table;
-    }
+//    public Field(Mark[][] table) {
+//        this.table = table;
+//    }
 
     public boolean isNextGamerX() {
         return nextGamerX;
-    }
-
-    public void setNextGamerX(boolean nextGamerX) {
-        this.nextGamerX = nextGamerX;
     }
 
     /**
@@ -30,9 +26,18 @@ public class Field {
     /**
      * процедура описывает очередной ход игрока
      * нужно указать следующего игрока по очереди
-     * нужно добавить в массив новый элемент фишки
      */
     public void moveGamer(Gamer gamer) {
 
+    }
+
+    /**
+     * добавлем в массив новую фишку
+     *
+     * @param row
+     * @param col
+     */
+    public void mark(int row, int col) {
+        table[row][col] = nextGamerX ? new ConsoleMarkX(): new ConsoleMarkO();
     }
 }
