@@ -1,10 +1,16 @@
 package ru.job4j.chapter005.TicTacToe;
 
 public class GamerAll implements Gamer {
-    private boolean markX = true;
+    enum Type {O, X};
 
-    public boolean isMarkX() {
-        return markX;
+    private Type typeGamer;
+
+    public GamerAll(Type typeGamer) {
+        this.typeGamer = typeGamer;
+    }
+
+    public Type isMarkX() {
+        return typeGamer;
     }
 
 }
