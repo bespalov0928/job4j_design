@@ -6,25 +6,32 @@ public class ThreadStop {
     public static void main(String[] args) {
         Thread thread = new Thread(
                 () -> {
-                    int count = 0;
-                    while (!Thread.currentThread().isInterrupted()){
-//                        try {
-//                            Thread.sleep(500);
-//                        } catch (InterruptedException e) {
-//                            e.printStackTrace();
-//                        }
-//                        System.out.println(Thread.currentThread().getName());
-                        System.out.println(count++);
+                    System.out.println("1");
+                    while (!Thread.currentThread().isInterrupted()) {
+                        try {
+                            System.out.println("start ...");
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e1) {
+                            System.out.println(Thread.currentThread().isInterrupted());
+                            System.out.println(Thread.currentThread().getState());
+                            Thread.currentThread().interrupt();
+                        }
                     }
                 }
         );
+
         thread.start();
-//        System.out.println(Thread.currentThread().getName());
         try {
-            Thread.sleep(1);
-        } catch (InterruptedException e) {
+            Thread.sleep(1000);
+        } catch (
+                InterruptedException e) {
             e.printStackTrace();
         }
         thread.interrupt();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

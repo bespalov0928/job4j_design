@@ -11,7 +11,10 @@ public class Wget {
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
+                if (Thread.currentThread().isInterrupted()) {
+                    Thread.interrupted();
+                }
             }
             System.out.print("\rLoading : " + index + "%");
         }
