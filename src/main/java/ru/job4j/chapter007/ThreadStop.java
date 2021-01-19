@@ -25,13 +25,13 @@ public class ThreadStop {
             Thread.sleep(1000);
         } catch (
                 InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
         thread.interrupt();
         try {
             thread.join();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
     }
 }
