@@ -16,26 +16,39 @@ public class Wget implements Runnable {
 
     @Override
     public void run() {
-        System.out.println("1");
         try (BufferedInputStream in = new BufferedInputStream(new URL(url).openStream());
              FileOutputStream fileOutputStream = new FileOutputStream("pom_tmp.xml")) {
             byte[] dataBuffer = new byte[1024];
             int bytesRead;
+            double startTime = System.currentTimeMillis();
+            int index = 1;
             while ((bytesRead = in.read(dataBuffer, 0, speed)) != -1) {
-                System.out.println("2");
                 fileOutputStream.write(dataBuffer, 0, bytesRead);
-                Thread.sleep(1000);
+                double endTime = System.currentTimeMillis();
+                double delta = (endTime - startTime) / index;
+                if (delta < 1.0) {
+                    System.out.println(delta);
+                    try {
+                        Thread.sleep((long) (1.0 - delta));
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+//                System.out.println("Total execution time/index: " + (endTime-startTime)/index + "ms");
+//                System.out.println("Total execution time: " + (endTime-startTime) + "ms");
+                index++;
             }
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
+//        catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
     }
 
     public static void main(String[] args) {
-        String url = args[0];
-        int speed = Integer.parseInt(args[1]);
+        String url = "https://raw.githubusercontent.com/peterarsentev/course_test/master/pom.xml";//args[0];
+        int speed = 3;//Integer.parseInt(args[1]);
         Thread wget = new Thread(new Wget(url, speed));
         wget.start();
         try {
@@ -45,7 +58,7 @@ public class Wget implements Runnable {
         }
     }
 
-    //    public static void main(String[] args) {
+//    public static void main(String[] args) {
 //        Thread thread = new Thread(
 //                () -> {
 //                }
