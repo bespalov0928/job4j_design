@@ -47,8 +47,15 @@ public class Wget implements Runnable {
     }
 
     public static void main(String[] args) {
-        String url = "https://raw.githubusercontent.com/peterarsentev/course_test/master/pom.xml";//args[0];
-        int speed = 3;//Integer.parseInt(args[1]);
+//        String url = "https://raw.githubusercontent.com/peterarsentev/course_test/master/pom.xml";//args[0];
+//        int speed = 3;//Integer.parseInt(args[1]);
+        if (args.length != 2) {
+            System.out.println("не корректные параметры");
+            return;
+        }
+        String url = args[0];
+        int speed = Integer.parseInt(args[1]);
+
         Thread wget = new Thread(new Wget(url, speed));
         wget.start();
         try {
