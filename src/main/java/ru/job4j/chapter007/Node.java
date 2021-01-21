@@ -1,8 +1,10 @@
 package ru.job4j.chapter007;
 
+import net.jcip.annotations.Immutable;
 import net.jcip.annotations.NotThreadSafe;
 
-@NotThreadSafe
+//@NotThreadSafe
+@Immutable
 public class Node<T> {
     private final Node next;
     private final T value;
