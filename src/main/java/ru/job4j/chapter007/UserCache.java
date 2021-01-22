@@ -21,7 +21,7 @@ public class UserCache {
     public List<User> findAll() {
         ArrayList<User> arrayList = new ArrayList<>();
         for (Integer id:users.keySet()) {
-            User user = users.remove(id);
+            User user = users.get(id);
             arrayList.add(User.of(user.getName()));
         }
 //        for (User user:(ArrayList<User>) users.values()) {
