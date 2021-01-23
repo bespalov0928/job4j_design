@@ -15,34 +15,39 @@ public class ParseFile {
     }
 
     public synchronized String getContent() throws IOException {
-        String output = "";
-        StringBuilder sb = new StringBuilder(output);
-        try (InputStream i = new BufferedInputStream(new FileInputStream(file))) {
-            int data;
-            while ((data = i.read()) > 0) {
-                //output += (char) data;
-                sb.insert(0, data);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        String output = getContent(data -> data < 0x80);
+
+//        String output = "";
+//        StringBuilder sb = new StringBuilder(output);
+//        try (InputStream i = new BufferedInputStream(new FileInputStream(file))) {
+//            int data;
+//            while ((data = i.read()) > 0) {
+//                //output += (char) data;
+//                sb.insert(0, data);
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
         return output;
     }
 
     public synchronized String getContentWithoutUnicode() throws IOException {
-        String output = "";
-        StringBuilder sb = new StringBuilder(output);
-        try (InputStream i = new BufferedInputStream(new FileInputStream(file))) {
-            int data;
-            while ((data = i.read()) > 0) {
-                if (data < 0x80) {
-                    //output += (char) data;
-                    sb.insert(0, data);
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        String output = getContent(data -> data < 0x80);
+
+//        StringBuilder sb = new StringBuilder(output);
+//        try (InputStream i = new BufferedInputStream(new FileInputStream(file))) {
+//            int data;
+//            while ((data = i.read()) > 0) {
+//                if (data < 0x80) {
+//                    //output += (char) data;
+//                    sb.insert(0, data);
+//                }
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
         return output;
     }
 
