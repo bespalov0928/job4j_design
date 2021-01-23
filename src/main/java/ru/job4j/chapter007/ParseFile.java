@@ -1,6 +1,7 @@
 package ru.job4j.chapter007;
 
 import java.io.*;
+import java.util.function.Predicate;
 
 public class ParseFile {
     private File file;
@@ -15,10 +16,12 @@ public class ParseFile {
 
     public synchronized String getContent() throws IOException {
         String output = "";
+        StringBuilder sb = new StringBuilder(output);
         try (InputStream i = new BufferedInputStream(new FileInputStream(file))) {
             int data;
             while ((data = i.read()) > 0) {
-                output += (char) data;
+                //output += (char) data;
+                sb.insert(0, data);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -28,16 +31,35 @@ public class ParseFile {
 
     public synchronized String getContentWithoutUnicode() throws IOException {
         String output = "";
+        StringBuilder sb = new StringBuilder(output);
         try (InputStream i = new BufferedInputStream(new FileInputStream(file))) {
             int data;
             while ((data = i.read()) > 0) {
                 if (data < 0x80) {
-                    output += (char) data;
+                    //output += (char) data;
+                    sb.insert(0, data);
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return output;
+    }
+
+    public synchronized String getContent(Predicate<Integer> pred) throws IOException {
+        String output = "";
+        StringBuilder sb = new StringBuilder(output);
+        try (InputStream i = new BufferedInputStream(new FileInputStream(file))) {
+            int data;
+            while ((data = i.read()) > 0) {
+                if (pred.test(data)) {
+                    sb.insert(0, data);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         return output;
     }
 
