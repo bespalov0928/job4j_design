@@ -36,8 +36,8 @@ public class UserStorage {
 //        } else {
 //            userTmp.setAmount(user.getAmount());
 //        }
-        return users.replace(user.getId(), user) == null ? false : true;
-
+//        return users.replace(user.getId(), user) == null ? false : true;
+        return users.replace(user.getId(), user) == null;
     }
 
     public synchronized boolean delete(User user) {
@@ -58,7 +58,7 @@ public class UserStorage {
         }
 
         if (userfrom != null && userTo != null) {
-            userTo.setAmount(userTo.getAmount());
+            userTo.setAmount(userTo.getAmount() + amount);
             userfrom.setAmount(userfrom.getAmount() - amount);
         } else {
             rsl = false;
