@@ -1,27 +1,32 @@
 package ru.job4j.chapter007.ThreadSafe;
 
+import net.jcip.annotations.GuardedBy;
 import net.jcip.annotations.ThreadSafe;
 
 import java.io.*;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 
 @ThreadSafe
 public class SingleLockList<T> implements Iterable<T> {
-
-    private DynamicList array = new DynamicList();
+    @GuardedBy("this")
+    private final DynamicList array = new DynamicList();
 
     public synchronized void add(T value) {
-
+        array.add(value);
     }
 
     public synchronized T get(int index) {
-        return null;
+        return (T) array.get(index);
     }
 
-    public DynamicList copy(DynamicList array) throws IOException, ClassNotFoundException {
+    public synchronized DynamicList copy(DynamicList array) throws IOException, ClassNotFoundException {
+
         DynamicList<T> arrayCopy = new DynamicList<>();
-        while (array.iterator().hasNext()) {
-            T elArray = (T) array.iterator().next();
+        Iterator<T> iter = array.iterator();
+        while (iter.hasNext()) {
+            T elArray = iter.next();
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ObjectOutputStream ous = null;
             ous = new ObjectOutputStream(baos);
