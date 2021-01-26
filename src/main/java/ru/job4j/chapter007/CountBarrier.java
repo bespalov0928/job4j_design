@@ -9,11 +9,11 @@ public class CountBarrier {
         this.total = total;
     }
 
-    public void count() {
+    public synchronized void count() {
         count++;
     }
 
-    public void await() {
+    public synchronized void await() {
         if (Integer.compare(total, count) == 0) {
             monitor.notifyAll();
         }else{
