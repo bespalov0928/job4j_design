@@ -25,17 +25,20 @@ public class SingleLockList<T> implements Iterable<T> {
 
         DynamicList<T> arrayCopy = new DynamicList<>();
         Iterator<T> iter = array.iterator();
+
+
         while (iter.hasNext()) {
             T elArray = iter.next();
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ObjectOutputStream ous = null;
-            ous = new ObjectOutputStream(baos);
-            ous.writeObject(elArray);
-            ous.close();
-            ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
-            ObjectInputStream ois = new ObjectInputStream(bais);
-            T cloneElArray = (T) ois.readObject();
-            arrayCopy.add(cloneElArray);
+            arrayCopy.add(elArray);
+//            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//            ObjectOutputStream ous = null;
+//            ous = new ObjectOutputStream(baos);
+//            ous.writeObject(elArray);
+//            ous.close();
+//            ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+//            ObjectInputStream ois = new ObjectInputStream(bais);
+//            T cloneElArray = (T) ois.readObject();
+//            arrayCopy.add(cloneElArray);
         }
         return arrayCopy;
     }
