@@ -16,7 +16,7 @@ public class SimpleBlockingQueue<T> {
     public synchronized void offer(T value) {
         System.out.println("offer");
         queue.add(value);
-        this.notifyAll();
+        this.notify();
         System.out.println("offer notifyAll");
     }
 
@@ -32,7 +32,6 @@ public class SimpleBlockingQueue<T> {
             }
         } else {
             temp = queue.peek();
-            System.out.println(temp);
         }
         return temp;
     }
