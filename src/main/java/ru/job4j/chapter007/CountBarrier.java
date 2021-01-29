@@ -15,15 +15,23 @@ public class CountBarrier {
     }
 
     public synchronized void await() {
-        //if (Integer.compare(total, count) == 0) {
-        if (total == count) {
-            monitor.notifyAll();
-        } else {
+        while (total != count) {
             try {
                 monitor.wait();
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
         }
+        monitor.notifyAll();
+//        //if (Integer.compare(total, count) == 0) {
+//        if (total == count) {
+//            monitor.notifyAll();
+//        } else {
+//            try {
+//                monitor.wait();
+//            } catch (InterruptedException e) {
+//                Thread.currentThread().interrupt();
+//            }
+//        }
     }
 }
