@@ -31,8 +31,13 @@ public class SimpleBlockingQueue<T> {
                 Thread.currentThread().interrupt();
             }
         } else {
-            temp = queue.peek();
+            //temp = queue.peek();
+            temp = queue.poll();
         }
         return temp;
+    }
+
+    public synchronized boolean isEmpty() {
+        return queue.isEmpty();
     }
 }
