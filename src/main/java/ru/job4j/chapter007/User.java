@@ -7,13 +7,15 @@ public class User {
     private int id;
     private String name;
     private int amount;
+    private String email;
 
     public User() {
     }
 
-    public User(int id, int amount) {
+    public User(int id, int amount, String email) {
         this.id = id;
         this.amount = amount;
+        this.email = email;
     }
 
     public static User of(String name) {
@@ -32,6 +34,10 @@ public class User {
 
     public String getName() {
         return name;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     public void setName(String name) {
