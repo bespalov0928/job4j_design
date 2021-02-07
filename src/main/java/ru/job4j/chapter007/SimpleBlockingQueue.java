@@ -14,18 +14,18 @@ public class SimpleBlockingQueue<T> {
     private final int total = 10;
 
     public synchronized void offer(T value) {
-        System.out.println("offer");
+        //System.out.println("offer");
         queue.add(value);
         this.notify();
-        System.out.println("offer notifyAll");
+        //System.out.println("offer notifyAll");
     }
 
     public synchronized T poll() {
-        System.out.println("poll");
+        //System.out.println("poll");
         T temp = null;
         if (queue.size() == 0) {
             try {
-                System.out.println("poll wait");
+                //System.out.println("poll wait");
                 this.wait();
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
@@ -40,4 +40,5 @@ public class SimpleBlockingQueue<T> {
     public synchronized boolean isEmpty() {
         return queue.isEmpty();
     }
+
 }
