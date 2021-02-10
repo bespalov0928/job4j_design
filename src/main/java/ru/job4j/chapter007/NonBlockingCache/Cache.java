@@ -18,20 +18,15 @@ public class Cache {
         int key = model.getId();
         Base modelNew = map.computeIfPresent(key, (k, v) -> {
                     System.out.println(Thread.currentThread().getName() + " : " + v.getVersion() + " : " + model.getVersion());
-                    if (v.getVersion() == model.getVersion()) {
+                    while (v.getVersion() == model.getVersion()) {
                         v.setName(model.getName());
                         v.setVersion();
-                    } else {
-                        System.out.println("Throw Exception in Thread");
-                        new OptimisticException("Throw Exception in Thread");
                     }
+                    System.out.println("Throw Exception in Thread");
+                    new OptimisticException("Throw Exception in Thread");
                     return v;
                 }
         );
-
-//        if (modelNew == null) {
-//            new OptimisticException("Throw Exception in Thread");
-//        }
     }
 
     public void delete(Base model) throws OptimisticException {
