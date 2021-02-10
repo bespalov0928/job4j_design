@@ -18,12 +18,12 @@ public class Cache {
         int key = model.getId();
         Base modelNew = map.computeIfPresent(key, (k, v) -> {
                     System.out.println(Thread.currentThread().getName() + " : " + v.getVersion() + " : " + model.getVersion());
-                    while (v.getVersion() == model.getVersion()) {
-                        v.setName(model.getName());
-                        v.setVersion();
+                    if (v.getVersion() != model.getVersion()) {
+                        System.out.println("Throw Exception in Thread");
+                        new OptimisticException("Throw Exception in Thread");
                     }
-                    System.out.println("Throw Exception in Thread");
-                    new OptimisticException("Throw Exception in Thread");
+                    v.setName(model.getName());
+                    v.setVersion();
                     return v;
                 }
         );
