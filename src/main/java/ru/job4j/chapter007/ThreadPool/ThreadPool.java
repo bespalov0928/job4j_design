@@ -21,7 +21,6 @@ public class ThreadPool {
                         synchronized (ThreadPool.class) {
                             tasks.poll();
                         }
-//                        tasks.poll();
                     }
             ));
         }
@@ -36,9 +35,6 @@ public class ThreadPool {
 
     public void work(Runnable job) {
         tasks.offer(job);
-//        synchronized (ThreadPool.class) {
-//            this.notifyAll();
-//        }
     }
 
     public void schutdown() {
