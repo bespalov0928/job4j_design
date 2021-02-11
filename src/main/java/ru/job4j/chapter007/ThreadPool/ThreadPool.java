@@ -8,8 +8,6 @@ import java.util.stream.IntStream;
 
 public class ThreadPool {
 
-    private static final ThreadPool INSTANSE = new ThreadPool();
-
     private final int size = Runtime.getRuntime().availableProcessors();
     private final List<Thread> threads = new LinkedList<>();
     private final SimpleBlockingQueue<Runnable> tasks = new SimpleBlockingQueue<>();
@@ -18,19 +16,13 @@ public class ThreadPool {
         for (int index = 0; index < size; index++) {
             threads.add(new Thread(
                     () -> {
-                        synchronized (ThreadPool.class) {
-                            tasks.poll();
-                        }
+                        tasks.poll();
                     }
             ));
         }
         for (Thread thread : threads) {
             thread.start();
         }
-    }
-
-    public static ThreadPool getInstance() {
-        return INSTANSE;
     }
 
     public void work(Runnable job) {
