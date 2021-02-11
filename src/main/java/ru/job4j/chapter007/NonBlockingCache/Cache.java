@@ -23,7 +23,7 @@ public class Cache {
                         new OptimisticException("Throw Exception in Thread");
                     }
                     v.setName(model.getName());
-                    v.setVersion();
+                    v.setVersion(v.getVersion() + 1);
                     return v;
                 }
         );

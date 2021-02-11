@@ -27,8 +27,8 @@ public class Base {
         this.id = id;
     }
 
-    public void setVersion() {
-        this.version++;
+    public void setVersion(int version) {
+        this.version = version;
     }
 
     public void setName(String name) {
