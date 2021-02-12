@@ -30,10 +30,8 @@ public class ThreadPool {
     }
 
     public void schutdown() {
-        try {
-            Thread.currentThread().wait();
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
+        for (Thread thread:threads) {
+            thread.interrupt();
         }
     }
 }
