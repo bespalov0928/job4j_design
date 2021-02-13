@@ -51,4 +51,9 @@ public class User {
     public void setAmount(int amount) {
         this.amount = amount;
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s%s%s", id, name, email);
+    }
 }
