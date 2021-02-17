@@ -28,8 +28,7 @@ public class ParallelFind<V> extends RecursiveTask<Integer> {
         int rsl = -1;
 
         if (to - from < 10) {
-            V[] arrCopy = (V[]) new Object[to - from + 1];
-            rsl = sequentialSearch(arr, objectFind, from, to);
+                rsl = sequentialSearch(arr, objectFind, from, to);
             return rsl;
         }
 
