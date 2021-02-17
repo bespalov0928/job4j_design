@@ -26,11 +26,13 @@ public class ParallelFind<V> extends RecursiveTask<Integer> {
     @Override
     protected Integer compute() {
         int rsl = -1;
-//        if (arr.length <= threshold) {
-//            System.out.println("1");
-//            rsl = sequentialSearch(arr, objectFind);
-//        } else {
-        System.out.println("2");
+
+        if (to - from < 10) {
+            V[] arrCopy = (V[]) new Object[to - from + 1];
+            rsl = sequentialSearch(arr, objectFind, from, to);
+            return rsl;
+        }
+
         int mid = from + to / 2;
         ParallelFind leftPart = new ParallelFind(arr, from, mid, objectFind);
         ParallelFind rightPart = new ParallelFind(arr, mid + 1, to, objectFind);
@@ -38,34 +40,21 @@ public class ParallelFind<V> extends RecursiveTask<Integer> {
         leftPart.fork();
         rightPart.fork();
 
-        V[] left = (V[]) leftPart.join();
-        V[] right = (V[]) rightPart.join();
+        int left = (int) leftPart.join();
+        int right = (int) rightPart.join();
 
-        int rslLeft = sequentialSearch(left, objectFind);
-        int rslRight = sequentialSearch(right, objectFind);
-        rsl = rslLeft == rslRight ? -1 : Integer.max(rslLeft, rslRight);
-//        }
-
+        rsl = left == right ? -1 : Integer.max(left, right);
         return rsl;
     }
 
-    private static <V> int sequentialSearch(V[] arr, V objectFind) {
-        System.out.println("sequentialSearch");
+    private static <V> int sequentialSearch(V[] arr, V objectFind, int from, int to) {
         int rsl = -1;
-        for (int index = 0; index < arr.length; index++) {
-            System.out.println("sequentialSearch: " + index);
+        for (int index = from; index <= to; index++) {
             if (arr[index].equals(objectFind)) {
                 rsl = index;
                 break;
             }
         }
-//        List<V> list = new ArrayList<V>(Arrays.asList(arr));
-//        list.forEach(x -> {
-//            if (x.equals(objectFind)) {
-//                rsl.set(list.indexOf(x));
-//            }
-//        });
-
         return rsl;
     }
 
@@ -74,8 +63,6 @@ public class ParallelFind<V> extends RecursiveTask<Integer> {
         ForkJoinPool forkJoinPool = new ForkJoinPool();
         ParallelFind parallelFind = new ParallelFind(arr, 0, arr.length - 1, objectFind);
         rsl = (int) forkJoinPool.invoke(parallelFind);
-        System.out.println(rsl);
-
         return rsl;
     }
 

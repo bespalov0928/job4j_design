@@ -18,8 +18,7 @@ public class ParallelFindTest {
         for (int index = 0; index < arr.length; index++){
             arr[index] = new User();
         }
-        int rsl = ParallelFind.getRsl(arr, arr[1]);
-        System.out.println(rsl);
-        assertThat(1, Is.is(rsl));
+        int rsl = ParallelFind.getRsl(arr, arr[11]);
+        assertThat(11, Is.is(rsl));
     }
 }
