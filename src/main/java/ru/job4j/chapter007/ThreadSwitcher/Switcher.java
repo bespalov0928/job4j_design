@@ -2,7 +2,8 @@ package ru.job4j.chapter007.ThreadSwitcher;
 
 public class Switcher {
     public static void main(String[] args) throws InterruptedException {
-        Thread first = new Thread(
+        MasterSlaveBarrier barrier = new MasterSlaveBarrier();
+        Thread master = new Thread(
                 () -> {
                     while (true) {
                         System.out.println("Thread A");
@@ -11,10 +12,13 @@ public class Switcher {
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
+                        barrier.tryMaster();
+                        barrier.doneSlave();
                     }
                 }
         );
-        Thread second = new Thread(
+
+        Thread slave = new Thread(
                 () -> {
                     while (true) {
                         System.out.println("Thread B");
@@ -23,20 +27,16 @@ public class Switcher {
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
+                        barrier.trySlave();
+                        barrier.doneMaster();
                     }
                 }
         );
-        first.start();
-        second.start();
-        first.join();
-        second.join();
 
-        MasterSlaveBarrier.tryMaster(first);
-        MasterSlaveBarrier.tryMaster(second);
+        master.start();
+        slave.start();
 
-        MasterSlaveBarrier.doneMaster(first);
-        MasterSlaveBarrier.doneMaster(second);
-
-
+        master.join();
+        slave.join();
     }
 }

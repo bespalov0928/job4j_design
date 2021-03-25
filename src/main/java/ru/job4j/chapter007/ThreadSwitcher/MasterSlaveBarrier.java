@@ -1,28 +1,58 @@
 package ru.job4j.chapter007.ThreadSwitcher;
 
 public class MasterSlaveBarrier {
-    public static void tryMaster(Object master) {
-        try {
-            master.wait();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+
+    private boolean masterRun = true;
+    private boolean slaveRun = false;
+    private final Object monitor = this;
+
+    public void tryMaster() {
+        synchronized (monitor) {
+            while (masterRun & !slaveRun) {
+                try {
+                    monitor.wait();
+                    masterRun = false;
+                    slaveRun = true;
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            }
         }
     }
 
-    public static void trySlave(Object slave) {
-        try {
-            slave.wait();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+    public void trySlave() {
+        synchronized (monitor) {
+            while (!masterRun & slaveRun) {
+                try {
+                    monitor.wait();
+                    masterRun = true;
+                    slaveRun = false;
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            }
         }
 
     }
 
-    public static void doneMaster(Object master) {
-        master.notify();
+    public void doneMaster() {
+        synchronized (monitor) {
+            if (!masterRun & slaveRun) {
+                monitor.notify();
+                slaveRun = false;
+                masterRun = true;
+            }
+        }
+
     }
 
-    public static void doneSlave(Object slave) {
-        slave.notify();
+    public void doneSlave() {
+        synchronized (monitor) {
+            if (masterRun & !slaveRun) {
+            monitor.notify();
+            slaveRun = true;
+            masterRun = false;
+            }
+        }
     }
 }
